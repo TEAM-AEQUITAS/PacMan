@@ -5,10 +5,10 @@ import java.awt.*;
  * Created by nasko on 9/16/15.
  */
 public class Pacman extends JPanel {
-    protected final int blocksize = 30;
+    protected final int blockSize = 30;
     protected final int numberOfBlocks = 15;
-    private final int pacmanspeed = 6;
-    protected int pacmananimpos = 0;
+    private final int pacmanSpeed = 6;
+    protected int pacmanAnimpos = 0;
     protected int score;
     protected Image pacman1;
     protected Image pacman2up;
@@ -23,69 +23,69 @@ public class Pacman extends JPanel {
     protected Image pacman4down;
     protected Image pacman4left;
     protected Image pacman4right;
-    protected int pacmanx;
-    protected int pacmany;
-    protected int pacmandx;
-    protected int pacmandy;
-    protected int reqdx;
-    protected int reqdy;
-    protected int viewdx;
-    protected int viewdy;
-    protected short[] screendata;
+    protected int pacmanX;
+    protected int pacmanY;
+    protected int pacmanDimensionX;
+    protected int pacmanDimensionY;
+    protected int reqDimensionX;
+    protected int reqDimensionY;
+    protected int viewDimensionX;
+    protected int viewDimensionY;
+    protected short[] screenData;
 
     protected void movePacman() {
 
         int position;
         short ch;
 
-        if (reqdx == -pacmandx && reqdy == -pacmandy) {
-            pacmandx = reqdx;
-            pacmandy = reqdy;
-            viewdx = pacmandx;
-            viewdy = pacmandy;
+        if (reqDimensionX == -pacmanDimensionX && reqDimensionY == -pacmanDimensionY) {
+            pacmanDimensionX = reqDimensionX;
+            pacmanDimensionY = reqDimensionY;
+            viewDimensionX = pacmanDimensionX;
+            viewDimensionY = pacmanDimensionY;
         }
 
-        if (pacmanx % blocksize == 0 && pacmany % blocksize == 0) {
-            position = pacmanx / blocksize + numberOfBlocks * (int) (pacmany / blocksize);
-            ch = screendata[position];
+        if (pacmanX % blockSize == 0 && pacmanY % blockSize == 0) {
+            position = pacmanX / blockSize + numberOfBlocks * (int) (pacmanY / blockSize);
+            ch = screenData[position];
 
             if ((ch & 16) != 0) {
-                screendata[position] = (short) (ch & 15);
+                screenData[position] = (short) (ch & 15);
                 score++;
             }
 
-            if (reqdx != 0 || reqdy != 0) {
-                if (!((reqdx == -1 && reqdy == 0 && (ch & 1) != 0)
-                        || (reqdx == 1 && reqdy == 0 && (ch & 4) != 0)
-                        || (reqdx == 0 && reqdy == -1 && (ch & 2) != 0)
-                        || (reqdx == 0 && reqdy == 1 && (ch & 8) != 0))) {
-                    pacmandx = reqdx;
-                    pacmandy = reqdy;
-                    viewdx = pacmandx;
-                    viewdy = pacmandy;
+            if (reqDimensionX != 0 || reqDimensionY != 0) {
+                if (!((reqDimensionX == -1 && reqDimensionY == 0 && (ch & 1) != 0)
+                        || (reqDimensionX == 1 && reqDimensionY == 0 && (ch & 4) != 0)
+                        || (reqDimensionX == 0 && reqDimensionY == -1 && (ch & 2) != 0)
+                        || (reqDimensionX == 0 && reqDimensionY == 1 && (ch & 8) != 0))) {
+                    pacmanDimensionX = reqDimensionX;
+                    pacmanDimensionY = reqDimensionY;
+                    viewDimensionX = pacmanDimensionX;
+                    viewDimensionY = pacmanDimensionY;
                 }
             }
 
             // Check for standstill
-            if ((pacmandx == -1 && pacmandy == 0 && (ch & 1) != 0)
-                    || (pacmandx == 1 && pacmandy == 0 && (ch & 4) != 0)
-                    || (pacmandx == 0 && pacmandy == -1 && (ch & 2) != 0)
-                    || (pacmandx == 0 && pacmandy == 1 && (ch & 8) != 0)) {
-                pacmandx = 0;
-                pacmandy = 0;
+            if ((pacmanDimensionX == -1 && pacmanDimensionY == 0 && (ch & 1) != 0)
+                    || (pacmanDimensionX == 1 && pacmanDimensionY == 0 && (ch & 4) != 0)
+                    || (pacmanDimensionX == 0 && pacmanDimensionY == -1 && (ch & 2) != 0)
+                    || (pacmanDimensionX == 0 && pacmanDimensionY == 1 && (ch & 8) != 0)) {
+                pacmanDimensionX = 0;
+                pacmanDimensionY = 0;
             }
         }
-        pacmanx = pacmanx + pacmanspeed * pacmandx;
-        pacmany = pacmany + pacmanspeed * pacmandy;
+        pacmanX = pacmanX + pacmanSpeed * pacmanDimensionX;
+        pacmanY = pacmanY + pacmanSpeed * pacmanDimensionY;
     }
 
     protected void drawPacman(Graphics2D g2d) {
 
-        if (viewdx == -1) {
+        if (viewDimensionX == -1) {
             drawPacmanLeft(g2d);
-        } else if (viewdx == 1) {
+        } else if (viewDimensionX == 1) {
             drawPacmanRight(g2d);
-        } else if (viewdy == -1) {
+        } else if (viewDimensionY == -1) {
             drawPacmanUp(g2d);
         } else {
             drawPacmanDown(g2d);
@@ -94,72 +94,72 @@ public class Pacman extends JPanel {
 
     private void drawPacmanUp(Graphics2D g2d) {
 
-        switch (pacmananimpos) {
+        switch (pacmanAnimpos) {
             case 1:
-                g2d.drawImage(pacman2up, pacmanx + 1, pacmany + 1, this);
+                g2d.drawImage(pacman2up, pacmanX + 1, pacmanY + 1, this);
                 break;
             case 2:
-                g2d.drawImage(pacman3up, pacmanx + 1, pacmany + 1, this);
+                g2d.drawImage(pacman3up, pacmanX + 1, pacmanY + 1, this);
                 break;
             case 3:
-                g2d.drawImage(pacman4up, pacmanx + 1, pacmany + 1, this);
+                g2d.drawImage(pacman4up, pacmanX + 1, pacmanY + 1, this);
                 break;
             default:
-                g2d.drawImage(pacman1, pacmanx + 1, pacmany + 1, this);
+                g2d.drawImage(pacman1, pacmanX + 1, pacmanY + 1, this);
                 break;
         }
     }
 
     private void drawPacmanDown(Graphics2D g2d) {
 
-        switch (pacmananimpos) {
+        switch (pacmanAnimpos) {
             case 1:
-                g2d.drawImage(pacman2down, pacmanx + 1, pacmany + 1, this);
+                g2d.drawImage(pacman2down, pacmanX + 1, pacmanY + 1, this);
                 break;
             case 2:
-                g2d.drawImage(pacman3down, pacmanx + 1, pacmany + 1, this);
+                g2d.drawImage(pacman3down, pacmanX + 1, pacmanY + 1, this);
                 break;
             case 3:
-                g2d.drawImage(pacman4down, pacmanx + 1, pacmany + 1, this);
+                g2d.drawImage(pacman4down, pacmanX + 1, pacmanY + 1, this);
                 break;
             default:
-                g2d.drawImage(pacman1, pacmanx + 1, pacmany + 1, this);
+                g2d.drawImage(pacman1, pacmanX + 1, pacmanY + 1, this);
                 break;
         }
     }
 
     private void drawPacmanLeft(Graphics2D g2d) {
 
-        switch (pacmananimpos) {
+        switch (pacmanAnimpos) {
             case 1:
-                g2d.drawImage(pacman2left, pacmanx + 1, pacmany + 1, this);
+                g2d.drawImage(pacman2left, pacmanX + 1, pacmanY + 1, this);
                 break;
             case 2:
-                g2d.drawImage(pacman3left, pacmanx + 1, pacmany + 1, this);
+                g2d.drawImage(pacman3left, pacmanX + 1, pacmanY + 1, this);
                 break;
             case 3:
-                g2d.drawImage(pacman4left, pacmanx + 1, pacmany + 1, this);
+                g2d.drawImage(pacman4left, pacmanX + 1, pacmanY + 1, this);
                 break;
             default:
-                g2d.drawImage(pacman1, pacmanx + 1, pacmany + 1, this);
+                g2d.drawImage(pacman1, pacmanX + 1, pacmanY + 1, this);
                 break;
         }
     }
 
     private void drawPacmanRight(Graphics2D g2d) {
 
-        switch (pacmananimpos) {
+        switch (pacmanAnimpos) {
             case 1:
-                g2d.drawImage(pacman2right, pacmanx + 1, pacmany + 1, this);
+                g2d.drawImage(pacman2right, pacmanX + 1, pacmanY + 1, this);
                 break;
             case 2:
-                g2d.drawImage(pacman3right, pacmanx + 1, pacmany + 1, this);
+                g2d.drawImage(pacman3right, pacmanX + 1, pacmanY + 1, this);
                 break;
             case 3:
-                g2d.drawImage(pacman4right, pacmanx + 1, pacmany + 1, this);
+                g2d.drawImage(pacman4right, pacmanX + 1, pacmanY + 1, this);
                 break;
             default:
-                g2d.drawImage(pacman1, pacmanx + 1, pacmany + 1, this);
+                g2d.drawImage(pacman1, pacmanX + 1, pacmanY + 1, this);
                 break;
         }
     }

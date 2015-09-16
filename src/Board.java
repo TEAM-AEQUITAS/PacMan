@@ -26,7 +26,7 @@ public class Board extends Pacman implements ActionListener {
     private boolean ingame = false;
     private boolean dying = false;
 
-    private final int screenSize = numberOfBlocks * blocksize;
+    private final int screenSize = numberOfBlocks * blockSize;
     private final int pacanimdelay = 2;
     private final int pacmananimcount = 4;
     private final int maxghosts = 12;
@@ -83,7 +83,7 @@ public class Board extends Pacman implements ActionListener {
 
     private void initVariables() {
 
-        screendata = new short[numberOfBlocks * numberOfBlocks];
+        screenData = new short[numberOfBlocks * numberOfBlocks];
         mazecolor = new Color(5, 100, 5);
         d = new Dimension(600, 600);
         ghostx = new int[maxghosts];
@@ -111,9 +111,9 @@ public class Board extends Pacman implements ActionListener {
 
         if (pacanimcount <= 0) {
             pacanimcount = pacanimdelay;
-            pacmananimpos = pacmananimpos + pacanimdir;
+            pacmanAnimpos = pacmanAnimpos + pacanimdir;
 
-            if (pacmananimpos == (pacmananimcount - 1) || pacmananimpos == 0) {
+            if (pacmanAnimpos == (pacmananimcount - 1) || pacmanAnimpos == 0) {
                 pacanimdir = -pacanimdir;
             }
         }
@@ -172,7 +172,7 @@ public class Board extends Pacman implements ActionListener {
 
         while (i < numberOfBlocks * numberOfBlocks && finished) {
 
-            if ((screendata[i] & 48) != 0) {
+            if ((screenData[i] & 48) != 0) {
                 finished = false;
             }
 
@@ -213,30 +213,30 @@ public class Board extends Pacman implements ActionListener {
         int count;
 
         for (i = 0; i < nrofghosts; i++) {
-            if (ghostx[i] % blocksize == 0 && ghosty[i] % blocksize == 0) {
-                pos = ghostx[i] / blocksize + numberOfBlocks * (int) (ghosty[i] / blocksize);
+            if (ghostx[i] % blockSize == 0 && ghosty[i] % blockSize == 0) {
+                pos = ghostx[i] / blockSize + numberOfBlocks * (int) (ghosty[i] / blockSize);
 
                 count = 0;
 
-                if ((screendata[pos] & 1) == 0 && ghostdx[i] != 1) {
+                if ((screenData[pos] & 1) == 0 && ghostdx[i] != 1) {
                     dx[count] = -1;
                     dy[count] = 0;
                     count++;
                 }
 
-                if ((screendata[pos] & 2) == 0 && ghostdy[i] != 1) {
+                if ((screenData[pos] & 2) == 0 && ghostdy[i] != 1) {
                     dx[count] = 0;
                     dy[count] = -1;
                     count++;
                 }
 
-                if ((screendata[pos] & 4) == 0 && ghostdx[i] != -1) {
+                if ((screenData[pos] & 4) == 0 && ghostdx[i] != -1) {
                     dx[count] = 1;
                     dy[count] = 0;
                     count++;
                 }
 
-                if ((screendata[pos] & 8) == 0 && ghostdy[i] != -1) {
+                if ((screenData[pos] & 8) == 0 && ghostdy[i] != -1) {
                     dx[count] = 0;
                     dy[count] = 1;
                     count++;
@@ -244,7 +244,7 @@ public class Board extends Pacman implements ActionListener {
 
                 if (count == 0) {
 
-                    if ((screendata[pos] & 15) == 15) {
+                    if ((screenData[pos] & 15) == 15) {
                         ghostdx[i] = 0;
                         ghostdy[i] = 0;
                     } else {
@@ -270,8 +270,8 @@ public class Board extends Pacman implements ActionListener {
             ghosty[i] = ghosty[i] + (ghostdy[i] * ghostspeed[i]);
             drawGhost(g2d, ghostx[i] + 1, ghosty[i] + 1);
 
-            if (pacmanx > (ghostx[i] - 12) && pacmanx < (ghostx[i] + 12)
-                    && pacmany > (ghosty[i] - 12) && pacmany < (ghosty[i] + 12)
+            if (pacmanX > (ghostx[i] - 12) && pacmanX < (ghostx[i] + 12)
+                    && pacmanY > (ghosty[i] - 12) && pacmanY < (ghosty[i] + 12)
                     && ingame) {
 
                 dying = true;
@@ -289,31 +289,31 @@ public class Board extends Pacman implements ActionListener {
         short i = 0;
         int x, y;
 
-        for (y = 0; y < screenSize; y += blocksize) {
-            for (x = 0; x < screenSize; x += blocksize) {
+        for (y = 0; y < screenSize; y += blockSize) {
+            for (x = 0; x < screenSize; x += blockSize) {
 
                 g2d.setColor(mazecolor);
                 g2d.setStroke(new BasicStroke(2));
 
-                if ((screendata[i] & 1) != 0) { 
-                    g2d.drawLine(x, y, x, y + blocksize - 1);
+                if ((screenData[i] & 1) != 0) {
+                    g2d.drawLine(x, y, x, y + blockSize - 1);
                 }
 
-                if ((screendata[i] & 2) != 0) { 
-                    g2d.drawLine(x, y, x + blocksize - 1, y);
+                if ((screenData[i] & 2) != 0) {
+                    g2d.drawLine(x, y, x + blockSize - 1, y);
                 }
 
-                if ((screendata[i] & 4) != 0) { 
-                    g2d.drawLine(x + blocksize - 1, y, x + blocksize - 1,
-                            y + blocksize - 1);
+                if ((screenData[i] & 4) != 0) {
+                    g2d.drawLine(x + blockSize - 1, y, x + blockSize - 1,
+                            y + blockSize - 1);
                 }
 
-                if ((screendata[i] & 8) != 0) { 
-                    g2d.drawLine(x, y + blocksize - 1, x + blocksize - 1,
-                            y + blocksize - 1);
+                if ((screenData[i] & 8) != 0) {
+                    g2d.drawLine(x, y + blockSize - 1, x + blockSize - 1,
+                            y + blockSize - 1);
                 }
 
-                if ((screendata[i] & 16) != 0) { 
+                if ((screenData[i] & 16) != 0) {
                     g2d.setColor(dotcolor);
                     g2d.fillRect(x + 11, y + 11, 2, 2);
                 }
@@ -332,8 +332,8 @@ public class Board extends Pacman implements ActionListener {
     }
     
     public void SetMovement(int dx, int dy) {
-    	this.reqdx = dx;
-    	this.reqdy = dy;
+    	this.reqDimensionX = dx;
+    	this.reqDimensionY = dy;
     }
     
     public void initGame() {
@@ -349,7 +349,7 @@ public class Board extends Pacman implements ActionListener {
 
         int i;
         for (i = 0; i < numberOfBlocks * numberOfBlocks; i++) {
-            screendata[i] = leveldata[i];
+            screenData[i] = leveldata[i];
         }
 
         continueLevel();
@@ -363,8 +363,8 @@ public class Board extends Pacman implements ActionListener {
 
         for (i = 0; i < nrofghosts; i++) {
 
-            ghosty[i] = 4 * blocksize;
-            ghostx[i] = 4 * blocksize;
+            ghosty[i] = 4 * blockSize;
+            ghostx[i] = 4 * blockSize;
             ghostdy[i] = 0;
             ghostdx[i] = dx;
             dx = -dx;
@@ -377,14 +377,14 @@ public class Board extends Pacman implements ActionListener {
             ghostspeed[i] = validspeeds[random];
         }
 
-        pacmanx = 7 * blocksize;
-        pacmany = 11 * blocksize;
-        pacmandx = 0;
-        pacmandy = 0;
-        reqdx = 0;
-        reqdy = 0;
-        viewdx = -1;
-        viewdy = 0;
+        pacmanX = 7 * blockSize;
+        pacmanY = 11 * blockSize;
+        pacmanDimensionX = 0;
+        pacmanDimensionY = 0;
+        reqDimensionX = 0;
+        reqDimensionY = 0;
+        viewDimensionX = -1;
+        viewDimensionY = 0;
         dying = false;
     }
 
