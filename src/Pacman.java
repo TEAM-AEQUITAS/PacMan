@@ -35,7 +35,7 @@ public class Pacman extends JPanel {
 
     protected void movePacman() {
 
-        int pos;
+        int position;
         short ch;
 
         if (reqdx == -pacmandx && reqdy == -pacmandy) {
@@ -46,11 +46,11 @@ public class Pacman extends JPanel {
         }
 
         if (pacmanx % blocksize == 0 && pacmany % blocksize == 0) {
-            pos = pacmanx / blocksize + numberOfBlocks * (int) (pacmany / blocksize);
-            ch = screendata[pos];
+            position = pacmanx / blocksize + numberOfBlocks * (int) (pacmany / blocksize);
+            ch = screendata[position];
 
             if ((ch & 16) != 0) {
-                screendata[pos] = (short) (ch & 15);
+                screendata[position] = (short) (ch & 15);
                 score++;
             }
 
