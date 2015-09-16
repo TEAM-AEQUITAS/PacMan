@@ -327,6 +327,10 @@ public class Board extends Pacman implements ActionListener {
     	this.ingame = true;
     }
     
+    public void StopGame(){
+    	this.ingame = false;
+    }
+    
     public void SetMovement(int dx, int dy) {
     	this.reqdx = dx;
     	this.reqdy = dy;
