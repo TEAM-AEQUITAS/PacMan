@@ -1,7 +1,6 @@
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Event;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
@@ -10,11 +9,8 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 import javax.swing.ImageIcon;
-import javax.swing.JPanel;
 import javax.swing.Timer;
 
 public class Board extends Pacman implements ActionListener {
@@ -66,14 +62,18 @@ public class Board extends Pacman implements ActionListener {
     private final int maxspeed = 6;
 
     private int currentspeed = 2;
-    private Timer timer;
+    public Timer timer;
 
+    private TAdapter adapter;
+    
     public Board() {
 
         loadImages();
         initVariables();
         
-        addKeyListener(new TAdapter());
+        adapter = new TAdapter(this);
+        
+        addKeyListener(adapter);
 
         setFocusable(true);
 
@@ -323,7 +323,16 @@ public class Board extends Pacman implements ActionListener {
         }
     }
 
-    private void initGame() {
+    public void StartGame(){
+    	this.ingame = true;
+    }
+    
+    public void SetMovement(int dx, int dy) {
+    	this.reqdx = dx;
+    	this.reqdy = dy;
+    }
+    
+    public void initGame() {
 
         pacsleft = 3;
         score = 0;
@@ -382,7 +391,7 @@ public class Board extends Pacman implements ActionListener {
         pacman2up = new ImageIcon("images/pacman2up.gif").getImage();
         pacman3up = new ImageIcon("images/pacman3up.gif").getImage();
         pacman4up = new ImageIcon("images/pacman4up.gif").getImage();
-        pacman2down = new ImageIcon("images/pacman2down.png").getImage();
+        pacman2down = new ImageIcon("images/pacman2down.gif").getImage();
         pacman3down = new ImageIcon("images/pacman3down.gif").getImage();
         pacman4down = new ImageIcon("images/pacman4down.gif").getImage();
         pacman2left = new ImageIcon("images/pacman2left.gif").getImage();
@@ -422,55 +431,7 @@ public class Board extends Pacman implements ActionListener {
         Toolkit.getDefaultToolkit().sync();
         g2d.dispose();
     }
-    class TAdapter extends KeyAdapter {
 
-        @Override
-        public void keyPressed(KeyEvent e) {
-
-            int key = e.getKeyCode();
-
-            if (ingame) {
-                if (key == KeyEvent.VK_LEFT) {
-                    reqdx = -1;
-                    reqdy = 0;
-                } else if (key == KeyEvent.VK_RIGHT) {
-                    reqdx = 1;
-                    reqdy = 0;
-                } else if (key == KeyEvent.VK_UP) {
-                    reqdx = 0;
-                    reqdy = -1;
-                } else if (key == KeyEvent.VK_DOWN) {
-                    reqdx = 0;
-                    reqdy = 1;
-                } else if (key == KeyEvent.VK_ESCAPE && timer.isRunning()) {
-                    ingame = false;
-                } else if (key == KeyEvent.VK_PAUSE) {
-                    if (timer.isRunning()) {
-                        timer.stop();
-                    } else {
-                        timer.start();
-                    }
-                }
-            } else {
-                if (key == KeyEvent.VK_ENTER) {
-                    ingame = true;
-                    initGame();
-                }
-            }
-        }
-
-        @Override
-        public void keyReleased(KeyEvent e) {
-
-            int key = e.getKeyCode();
-
-            if (key == Event.LEFT || key == Event.RIGHT
-                    || key == Event.UP || key == Event.DOWN) {
-                reqdx = 0;
-                reqdy = 0;
-            }
-        }
-    }
     @Override
     public void actionPerformed(ActionEvent e) {
 
