@@ -1,9 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
 
-/**
- * Created by nasko on 9/16/15.
- */
 public class Pacman extends JPanel {
     protected final int blockSize = 30;
     protected final int numberOfBlocks = 15;

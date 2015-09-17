@@ -17,26 +17,26 @@ public class Board extends Pacman implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private Dimension dimension;
-	private final Font smallfont = new Font("Helvetica", Font.BOLD, 14);
+	private final Font smallFont = new Font("Helvetica", Font.BOLD, 14);
 
 	private Image ii;
-	private final Color dotcolor = new Color(192, 192, 0);
-	private Color mazecolor;
+	private final Color dotColor = new Color(192, 192, 0);
+	private Color mazeColor;
 
 	private boolean dying = false;
 
 	private final int screenSize = numberOfBlocks * blockSize;
-	private final int pacanimdelay = 2;
-	private final int pacmananimcount = 4;
+	private final int pacAnimDelay = 2;
+	private final int pacmanAnimCount = 4;
 
-	private int pacanimcount = pacanimdelay;
-	private int pacanimdir = 1;
+	private int pacAnimCount = pacAnimDelay;
+	private int pacAnimDir = 1;
 	protected int pacmanLivesLeft;
 	private Ghost[] ghosts;
 
 	// private Image ghost;
 
-	private final short leveldata[] = { 
+	private final short levelData[] = {
 			19, 26, 26, 26, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 22, 
 			21,  0,  0,  0, 17, 16, 16, 16, 16, 16, 16, 16, 16, 16, 20, 
 			21,  0,  0,  0, 17, 16, 16, 16, 16, 16, 16, 16, 16, 16, 20,
@@ -53,9 +53,9 @@ public class Board extends Pacman implements ActionListener {
 			1,  25, 24, 24, 24, 24, 24, 24, 24, 24, 16, 16, 16, 18, 20, 
 			9,   8,  8,  8,  8,  8,  8,  8,  8,  8, 25, 24, 24, 24, 28 };
 			
-	private final int maxspeed = 6;
+	private final int maxSpeed = 6;
 
-	private int currentspeed = 2;
+	private int currentSpeed = 2;
 	public Timer timer;
 
 	private TAdapter adapter;
@@ -78,7 +78,7 @@ public class Board extends Pacman implements ActionListener {
 	private void initVariables() {
 
 		screenData = new short[numberOfBlocks * numberOfBlocks];
-		mazecolor = new Color(5, 100, 5);
+		mazeColor = new Color(5, 100, 5);
 		dimension = new Dimension(600, 600);
 		timer = new Timer(40, this);
 		timer.start();
@@ -93,14 +93,14 @@ public class Board extends Pacman implements ActionListener {
 
 	private void doAnim() {
 
-		pacanimcount--;
+		pacAnimCount--;
 
-		if (pacanimcount <= 0) {
-			pacanimcount = pacanimdelay;
-			pacmanAnimPos = pacmanAnimPos + pacanimdir;
+		if (pacAnimCount <= 0) {
+			pacAnimCount = pacAnimDelay;
+			pacmanAnimPos = pacmanAnimPos + pacAnimDir;
 
-			if (pacmanAnimPos == (pacmananimcount - 1) || pacmanAnimPos == 0) {
-				pacanimdir = -pacanimdir;
+			if (pacmanAnimPos == (pacmanAnimCount - 1) || pacmanAnimPos == 0) {
+				pacAnimDir = -pacAnimDir;
 			}
 		}
 	}
@@ -142,7 +142,7 @@ public class Board extends Pacman implements ActionListener {
 		int i;
 		String s;
 
-		g.setFont(smallfont);
+		g.setFont(smallFont);
 		g.setColor(new Color(96, 128, 255));
 		s = "Score: " + score;
 		g.drawString(s, screenSize / 2 + 96, screenSize + 16);
@@ -170,8 +170,8 @@ public class Board extends Pacman implements ActionListener {
 
 			score += 50;
 
-			if (currentspeed < maxspeed) {
-				currentspeed++;
+			if (currentSpeed < maxSpeed) {
+				currentSpeed++;
 			}
 
 			initLevel();
@@ -212,7 +212,7 @@ public class Board extends Pacman implements ActionListener {
 		for (y = 0; y < screenSize; y += blockSize) {
 			for (x = 0; x < screenSize; x += blockSize) {
 
-				g2d.setColor(mazecolor);
+				g2d.setColor(mazeColor);
 				g2d.setStroke(new BasicStroke(2));
 
 				// Draw wall above block
@@ -235,7 +235,7 @@ public class Board extends Pacman implements ActionListener {
 				}
 
 				if ((screenData[i] & 16) != 0) {
-					g2d.setColor(dotcolor);
+					g2d.setColor(dotColor);
 					g2d.fillRect(x + 11, y + 11, 2, 2);
 				}
 
@@ -264,14 +264,14 @@ public class Board extends Pacman implements ActionListener {
 
 		initLevel();
 
-		currentspeed = 3;
+		currentSpeed = 3;
 	}
 
 	private void initLevel() {
 
 		int i;
 		for (i = 0; i < numberOfBlocks * numberOfBlocks; i++) {
-			screenData[i] = leveldata[i];
+			screenData[i] = levelData[i];
 		}
 
 		continueLevel();
