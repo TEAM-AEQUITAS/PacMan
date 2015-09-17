@@ -32,7 +32,6 @@ public class TAdapter extends KeyAdapter {
                
             } else if (key == KeyEvent.VK_ESCAPE && board.timer.isRunning()) {
             	isPlaying = false;
-            	board.StopGame();
             	
             } else if (key == KeyEvent.VK_PAUSE) {
                 if (board.timer.isRunning()) {
@@ -46,7 +45,6 @@ public class TAdapter extends KeyAdapter {
         else {
             if (key == KeyEvent.VK_ENTER) {
             	isPlaying = true;
-            	board.StartGame();
                 board.initGame();
             }
         }

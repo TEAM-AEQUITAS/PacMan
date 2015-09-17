@@ -8,7 +8,7 @@ public class Pacman extends JPanel {
     protected final int blockSize = 30;
     protected final int numberOfBlocks = 15;
     private final int pacmanSpeed = 6;
-    protected int pacmanAnimpos = 0;
+    protected int pacmanAnimPos = 0;
     protected int score;
     protected Image pacman1;
     protected Image pacman2up;
@@ -94,7 +94,7 @@ public class Pacman extends JPanel {
 
     private void drawPacmanUp(Graphics2D g2d) {
 
-        switch (pacmanAnimpos) {
+        switch (pacmanAnimPos) {
             case 1:
                 g2d.drawImage(pacman2up, pacmanX + 1, pacmanY + 1, this);
                 break;
@@ -112,7 +112,7 @@ public class Pacman extends JPanel {
 
     private void drawPacmanDown(Graphics2D g2d) {
 
-        switch (pacmanAnimpos) {
+        switch (pacmanAnimPos) {
             case 1:
                 g2d.drawImage(pacman2down, pacmanX + 1, pacmanY + 1, this);
                 break;
@@ -130,7 +130,7 @@ public class Pacman extends JPanel {
 
     private void drawPacmanLeft(Graphics2D g2d) {
 
-        switch (pacmanAnimpos) {
+        switch (pacmanAnimPos) {
             case 1:
                 g2d.drawImage(pacman2left, pacmanX + 1, pacmanY + 1, this);
                 break;
@@ -148,7 +148,7 @@ public class Pacman extends JPanel {
 
     private void drawPacmanRight(Graphics2D g2d) {
 
-        switch (pacmanAnimpos) {
+        switch (pacmanAnimPos) {
             case 1:
                 g2d.drawImage(pacman2right, pacmanX + 1, pacmanY + 1, this);
                 break;
