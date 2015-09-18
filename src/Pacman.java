@@ -72,8 +72,8 @@ public class Pacman extends JPanel {
                 pacmanDimensionY = 0;
             }
         }
-        pacmanX = pacmanX + pacmanSpeed * pacmanDimensionX;
-        pacmanY = pacmanY + pacmanSpeed * pacmanDimensionY;
+        pacmanX = pacmanX + 0.95*pacmanSpeed * pacmanDimensionX;
+        pacmanY = pacmanY + 1.05*pacmanSpeed * pacmanDimensionY;
     }
 
     protected void drawPacman(Graphics2D g2d) {
