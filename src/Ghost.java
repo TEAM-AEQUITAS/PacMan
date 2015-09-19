@@ -10,6 +10,7 @@ public class Ghost extends JPanel {
 	public int ghostX;
 	//Current position Y
 	public int ghostY;
+
 	public int ghostDX;
 	public int ghostDY;
 	private int speed;
@@ -17,10 +18,10 @@ public class Ghost extends JPanel {
 	private int dy[] = new int[4];
 	private final int validspeeds[] = { 1, 2, 3, 4, 6, 8 };
 	
-	public Ghost(int initX, int initY)  {
+	public Ghost(int initialPositionX, int initialPositionY)  {
 		
-		ghostX = initX;
-		ghostY = initY;
+		ghostX = initialPositionX;
+		ghostY = initialPositionY;
 		
 		int random = (int) (Math.random() * 5);
 
@@ -32,36 +33,36 @@ public class Ghost extends JPanel {
 
 	public void move(short screenData[], int blockSize, Graphics2D g2d) {
 
-		int pos;
+		int position;
 		int count;
 		// Width and height of the game field
 		int numberOfBlocks = 15;
 
 		if (ghostX % blockSize == 0 && ghostY % blockSize == 0) {
-			pos = ghostX / blockSize + numberOfBlocks
+			position = ghostX / blockSize + numberOfBlocks
 					* (int) (ghostY / blockSize);
 
 			count = 0;
             		
-			if ((screenData[pos] & 1) == 0 && ghostDX != 1) {
+			if ((screenData[position] & 1) == 0 && ghostDX != 1) {
 				dx[count] = -1;
 				dy[count] = 0;
 				count++;
 			}
 
-			if ((screenData[pos] & 2) == 0 && ghostDY != 1) {
+			if ((screenData[position] & 2) == 0 && ghostDY != 1) {
 				dx[count] = 0;
 				dy[count] = -1;
 				count++;
 			}
 
-			if ((screenData[pos] & 4) == 0 && ghostDX != -1) {
+			if ((screenData[position] & 4) == 0 && ghostDX != -1) {
 				dx[count] = 1;
 				dy[count] = 0;
 				count++;
 			}
 
-			if ((screenData[pos] & 8) == 0 && ghostDY != -1) {
+			if ((screenData[position] & 8) == 0 && ghostDY != -1) {
 				dx[count] = 0;
 				dy[count] = 1;
 				count++;
@@ -69,7 +70,7 @@ public class Ghost extends JPanel {
 
 			if (count == 0) {
 
-				if ((screenData[pos] & 15) == 15) {
+				if ((screenData[position] & 15) == 15) {
 					ghostDX = 0;
 					ghostDY = 0;
 				} else {

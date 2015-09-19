@@ -79,85 +79,90 @@ public class Pacman extends JPanel {
     protected void drawPacman(Graphics2D g2d) {
 
         if (viewDimensionX == -1) {
-            drawPacmanLeft(g2d);
+            drawPacmanOriented(g2d, PacmanDirections.LEFT);
         } else if (viewDimensionX == 1) {
-            drawPacmanRight(g2d);
+            drawPacmanOriented(g2d, PacmanDirections.RIGHT);
         } else if (viewDimensionY == -1) {
-            drawPacmanUp(g2d);
+            drawPacmanOriented(g2d, PacmanDirections.UP);
         } else {
-            drawPacmanDown(g2d);
+            drawPacmanOriented(g2d, PacmanDirections.DOWN);
         }
     }
 
-    private void drawPacmanUp(Graphics2D g2d) {
-
+    protected void drawPacmanOriented(Graphics2D g2d, PacmanDirections direction) {
         switch (pacmanAnimPos) {
             case 1:
-                g2d.drawImage(pacman2up, pacmanX + 1, pacmanY + 1, this);
+                g2d.drawImage(GetPacManImage(direction, 1), pacmanX + 1, pacmanY + 1, this);
                 break;
             case 2:
-                g2d.drawImage(pacman3up, pacmanX + 1, pacmanY + 1, this);
+                g2d.drawImage(GetPacManImage(direction, 2), pacmanX + 1, pacmanY + 1, this);
                 break;
             case 3:
-                g2d.drawImage(pacman4up, pacmanX + 1, pacmanY + 1, this);
+                g2d.drawImage(GetPacManImage(direction, 3), pacmanX + 1, pacmanY + 1, this);
                 break;
             default:
-                g2d.drawImage(pacman1, pacmanX + 1, pacmanY + 1, this);
-                break;
-        }
-    }
-
-    private void drawPacmanDown(Graphics2D g2d) {
-
-        switch (pacmanAnimPos) {
-            case 1:
-                g2d.drawImage(pacman2down, pacmanX + 1, pacmanY + 1, this);
-                break;
-            case 2:
-                g2d.drawImage(pacman3down, pacmanX + 1, pacmanY + 1, this);
-                break;
-            case 3:
-                g2d.drawImage(pacman4down, pacmanX + 1, pacmanY + 1, this);
-                break;
-            default:
-                g2d.drawImage(pacman1, pacmanX + 1, pacmanY + 1, this);
+                g2d.drawImage(GetPacManImage(direction, 4), pacmanX + 1, pacmanY + 1, this);
                 break;
         }
     }
 
-    private void drawPacmanLeft(Graphics2D g2d) {
+    private Image GetPacManImage (PacmanDirections direction , int position){
 
-        switch (pacmanAnimPos) {
-            case 1:
-                g2d.drawImage(pacman2left, pacmanX + 1, pacmanY + 1, this);
-                break;
-            case 2:
-                g2d.drawImage(pacman3left, pacmanX + 1, pacmanY + 1, this);
-                break;
-            case 3:
-                g2d.drawImage(pacman4left, pacmanX + 1, pacmanY + 1, this);
-                break;
-            default:
-                g2d.drawImage(pacman1, pacmanX + 1, pacmanY + 1, this);
-                break;
-        }
-    }
+        Image currentImage = pacman1;
 
-    private void drawPacmanRight(Graphics2D g2d) {
-
-        switch (pacmanAnimPos) {
-            case 1:
-                g2d.drawImage(pacman2right, pacmanX + 1, pacmanY + 1, this);
-                break;
-            case 2:
-                g2d.drawImage(pacman3right, pacmanX + 1, pacmanY + 1, this);
-                break;
-            case 3:
-                g2d.drawImage(pacman4right, pacmanX + 1, pacmanY + 1, this);
-                break;
-            default:
-                g2d.drawImage(pacman1, pacmanX + 1, pacmanY + 1, this);
-                break;
-        }
+            switch (position) {
+                case 1:
+                    switch (direction){
+                        case  UP:
+                            currentImage = pacman2up;
+                            break;
+                        case  DOWN:
+                            currentImage = pacman2down;
+                            break;
+                        case  LEFT:
+                            currentImage = pacman2left;
+                            break;
+                        case  RIGHT:
+                            currentImage = pacman2right;
+                            break;
+                    }
+                    break;
+                case 2:
+                    switch (direction){
+                        case  UP:
+                            currentImage = pacman3up;
+                        break;
+                        case  DOWN:
+                            currentImage = pacman3down;
+                        break;
+                        case  LEFT:
+                            currentImage = pacman3left;
+                        break;
+                        case  RIGHT:
+                            currentImage = pacman3right;
+                        break;
+                    }
+                    break;
+                case 3:
+                    switch (direction){
+                        case  UP:
+                            currentImage = pacman4up;
+                        break;
+                        case  DOWN:
+                            currentImage = pacman4down;
+                        break;
+                        case  LEFT:
+                            currentImage = pacman4left;
+                        break;
+                        case  RIGHT:
+                            currentImage = pacman4right;
+                        break;
+                    }
+                    break;
+                default:
+                    currentImage = pacman1;
+                    break;
+            }
+        return currentImage;
     }
 }

@@ -244,9 +244,9 @@ public class Board extends Pacman implements ActionListener {
 		}
 	}
 
-	public void SetMovement(int dx, int dy) {
-		this.reqDimensionX = dx;
-		this.reqDimensionY = dy;
+	public void SetMovement(int dimensionX, int dimensionY) {
+		this.reqDimensionX = dimensionX;
+		this.reqDimensionY = dimensionY;
 	}
 
 	public void initGame() {
