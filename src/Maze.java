@@ -34,7 +34,7 @@ public class Maze {
                 g2d.setColor(mazeColor);
                 g2d.setStroke(new BasicStroke(2));
 
-                if ((screenData[i] & 1) != 0) { // 1 == pacanimdir
+                if ((screenData[i] & 1) != 0) { 
                     g2d.drawLine(x, y, x, y + blockSize - 1);
                 }
 

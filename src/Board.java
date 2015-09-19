@@ -199,14 +199,7 @@ public class Board extends Pacman implements ActionListener {
 	public void initGame() {
 
 		pacmanLivesLeft = 3;
-		// Array of ghosts
-		ghosts = new Ghost[] { 
-		      new Ghost(0, 0), 
-		      new Ghost(4 * maze.getBlockSize(), 4 * maze.getBlockSize()),
-		      new Ghost(14 * maze.getBlockSize(), 0),
-		      new Ghost(maze.getBlockSize()*2, 13 * maze.getBlockSize())
-		};
-
+		
 		score = 0;
 
 		initLevel();
@@ -223,19 +216,29 @@ public class Board extends Pacman implements ActionListener {
 		continueLevel();
 	}
 
-	private void continueLevel() {
-
+	private void initGhosts() {
+		
 		short i;
 		int dx = 1;
-
-
-		for (i = 0; i < ghosts.length; i++) {
-			//ghosts[i].ghostX = 4 * blockSize;
-			//ghosts[i].ghostY = 4 * blockSize;
+		
+		ghosts = new Ghost[] { 
+			      new Ghost(0, 0), 
+			      new Ghost(4 * maze.getBlockSize(), 4 * maze.getBlockSize()),
+			      new Ghost(14 * maze.getBlockSize(), 0),
+			      new Ghost(maze.getBlockSize()*2, 13 * maze.getBlockSize())
+			};
+		
+		for (i = 0; i < ghosts.length; i++) {	
 			ghosts[i].ghostDY = 0;
 			ghosts[i].ghostDX = dx;
-			dx = -dx;
 		}
+	}
+	
+	private void continueLevel() {
+
+	
+
+		initGhosts();
 
 		pacmanX = 7 * maze.getBlockSize();
 		pacmanY = 11 * maze.getBlockSize();
