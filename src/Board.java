@@ -32,9 +32,6 @@ public class Board extends Pacman implements ActionListener {
 	private Ghost[] ghosts;
 	Maze maze = new Maze();
 
-
-	// private Image ghost;
-
 	private final short levelData[] = {
 			19, 26, 26, 26, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 22, 
 			21,  0,  0,  0, 17, 16, 16, 16, 16, 16, 16, 16, 16, 16, 20, 
@@ -293,7 +290,7 @@ public class Board extends Pacman implements ActionListener {
 			showIntroScreen(g2d);
 		}
 
-		g2d.drawImage(ii, 5, 5, this);
+		//g2d.drawImage(ii, 5, 5, this);
 		Toolkit.getDefaultToolkit().sync();
 		g2d.dispose();
 	}
