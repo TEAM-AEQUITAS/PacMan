@@ -175,7 +175,7 @@ public class Board extends Pacman implements ActionListener {
 
 		for (short i = 0; i < ghosts.length; i++) {
 			Ghost ghost = ghosts[i];
-			ghost.move(screenData, maze.getBlockSize(), g2d);
+			ghost.move(screenData, maze.getBlockSize(), g2d, pacmanX/maze.getBlockSize(), pacmanY/maze.getBlockSize());
 			//drawGhost(g2d, ghost.ghostX + 1, ghost.ghostY + 1);
 			if (pacmanX > (ghost.ghostX - 15) && pacmanX < (ghost.ghostX + 15)
 					&& pacmanY > (ghost.ghostY - 15)
