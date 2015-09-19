@@ -1,11 +1,12 @@
 import javax.swing.*;
+
 import java.awt.*;
 
 public class Maze {
     private final int blockSize = 30;
     private final int numberOfBlocks = 15;
     private final int screenSize = numberOfBlocks * blockSize;
-    private final Color dotColor = new Color(192, 192, 0);
+    private final Color dotColor = Color.YELLOW; //new Color(192, 192, 0);
     private Color mazeColor;
 
     public int getNumberOfBlocks(){
@@ -77,7 +78,7 @@ public class Maze {
         return true;
     }
     public void initMaze() {
-        mazeColor = new Color(5, 100, 5);
+        mazeColor = Color.BLUE; //new Color(5, 100, 5);
     }
 
 }

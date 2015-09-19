@@ -13,19 +13,14 @@ public class Ghost extends JPanel {
 	public int ghostDX;
 	public int ghostDY;
 	private int speed;
-	private final int validspeeds[] = { 1, 2, 3, 4, 6, 8 };
+	private final int validspeeds[] = { 2, 3, 4, 5, 6, 8 };
 	
-	public Ghost(int initialPositionX, int initialPositionY)  {
+	public Ghost(int initialPositionX, int initialPositionY, int level)  {
 		
 		ghostX = initialPositionX;
 		ghostY = initialPositionY;
 		
-		int random = (int) (Math.random() * 5);
-
-		if (random > 5) {
-			random = 5;
-		}
-		speed = validspeeds[random];	
+		speed = validspeeds[level];	
 	}
 
     public void move(short screenData[], int blockSize, Graphics2D g2d) {

@@ -19,8 +19,6 @@ public class Board extends Pacman implements ActionListener {
 	private Dimension dimension;
 	private final Font smallFont = new Font("Helvetica", Font.BOLD, 14);
 
-	private Image ii;
-
 	private boolean dying = false;
 
 	private final int pacAnimDelay = 2;
@@ -29,25 +27,26 @@ public class Board extends Pacman implements ActionListener {
 	private int pacAnimCount = pacAnimDelay;
 	private int pacAnimDir = 1;
 	protected int pacmanLivesLeft;
+	private int level;
 	private Ghost[] ghosts;
 	Maze maze = new Maze();
 
 	private final short levelData[] = {
-			19, 26, 26, 26, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 22, 
-			21,  0,  0,  0, 17, 16, 16, 16, 16, 16, 16, 16, 16, 16, 20, 
-			21,  0,  0,  0, 17, 16, 16, 16, 16, 16, 16, 16, 16, 16, 20,
-            21,  0,  0,  0, 17, 16, 16, 24, 16, 16, 16, 16, 16, 16, 20, 
-            17, 18, 18, 18, 16, 16, 20,  0, 17, 16, 16, 16, 16, 16, 20, 
-            17, 16, 16, 16, 16, 16, 20,  0, 17, 16, 16, 16, 16, 24, 20, 
-            25, 16, 16, 16, 24, 24, 28,  0, 25, 24, 24, 16, 20,  0, 21, 
-            1,  17, 16, 20,  0,  0,  0,  0,  0,  0,  0, 17, 20,  0, 21, 
-            1,  17, 16, 16, 18, 18, 22,  0, 19, 18, 18, 16, 20,  0, 21, 
-            1,  17, 16, 16, 16, 16, 20,  0, 17, 16, 16, 16, 20,  0, 21,
-			1,  17, 16, 16, 16, 16, 20,  0, 17, 16, 16, 16, 20,  0, 21, 
-			1,  17, 16, 16, 16, 16, 16, 18, 16, 16, 16, 16, 20,  0, 21, 
-			1,  17, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 20,  0, 21, 
-			1,  25, 24, 24, 24, 24, 24, 24, 24, 24, 16, 16, 16, 18, 20, 
-			9,   8,  8,  8,  8,  8,  8,  8,  8,  8, 25, 24, 24, 24, 28 };
+			19, 26, 26, 18, 26, 26, 26, 18, 26, 26, 26, 18, 26, 26, 22, 
+			21,  0,  0, 21,  0,  0,  0, 21,  0,  0,  0, 21,  0,  0, 21, 
+			21,  0, 19, 16, 18, 18, 18, 16, 18, 18, 18, 16, 22,  0, 21,
+            21,  0, 17, 16, 16, 16, 16, 24, 16, 16, 16, 16, 20,  0, 21, 
+            21,  0, 17, 16, 16, 16, 20,  0, 17, 16, 16, 16, 20,  0, 21, 
+            21,  0, 17, 16, 16, 16, 20,  0, 17, 16, 16, 16, 20,  0, 21, 
+            21,  0, 17, 16, 24, 24, 28,  0, 25, 24, 24, 16, 20,  0, 21, 
+            17, 26, 16, 20,  0,  0,  0,  0,  0,  0,  0, 17, 16, 26, 20, 
+            21,  0, 17, 16, 18, 18, 22,  0, 19, 18, 18, 16, 20,  0, 21, 
+            21,  0, 17, 16, 16, 16, 20,  0, 17, 16, 16, 16, 20,  0, 21,
+			21,  0, 17, 16, 16, 16, 20,  0, 17, 16, 16, 16, 20,  0, 21, 
+			21,  0, 17, 16, 16, 16, 16, 18, 16, 16, 16, 16, 20,  0, 21, 
+			21,  0, 25, 16, 24, 24, 24, 16, 24, 24, 24, 16, 28,  0, 21, 
+			21,  0,  0, 21,  0,  0,  0, 21,  0,  0,  0, 21,  0,  0, 21, 
+			25, 26, 26, 24, 26, 26, 26, 24, 26, 26, 26, 24, 26, 26, 28 };
 			
 	private final int maxSpeed = 6;
 
@@ -217,12 +216,13 @@ public class Board extends Pacman implements ActionListener {
 		
 		short i;
 		int dx = 1;
+		level = 1;
 		
 		ghosts = new Ghost[] { 
-			      new Ghost(0, 0), 
-			      new Ghost(4 * maze.getBlockSize(), 4 * maze.getBlockSize()),
-			      new Ghost(14 * maze.getBlockSize(), 0),
-			      new Ghost(maze.getBlockSize()*2, 13 * maze.getBlockSize())
+			      new Ghost(0, 0, level), 
+			      new Ghost(14 * maze.getBlockSize(), 14 * maze.getBlockSize(), level),
+			      new Ghost(14 * maze.getBlockSize(), 0, level),
+			      new Ghost(0, 14 * maze.getBlockSize(), level)
 			};
 		
 		for (i = 0; i < ghosts.length; i++) {	
@@ -289,8 +289,7 @@ public class Board extends Pacman implements ActionListener {
 		} else {
 			showIntroScreen(g2d);
 		}
-
-		//g2d.drawImage(ii, 5, 5, this);
+	
 		Toolkit.getDefaultToolkit().sync();
 		g2d.dispose();
 	}
