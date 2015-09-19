@@ -34,27 +34,27 @@ public class Maze {
                 g2d.setColor(mazeColor);
                 g2d.setStroke(new BasicStroke(2));
 
-                if ((screenData[i] & 1) != 0) { 
+                if ((screenData[i] & ScreenDataConstants.leftBorder) != 0) {
                     g2d.drawLine(x, y, x, y + blockSize - 1);
                 }
 
-                if ((screenData[i] & 2) != 0) {
+                if ((screenData[i] & ScreenDataConstants.topBorder) != 0) {
                     g2d.drawLine(x, y, x + blockSize - 1, y);
                 }
 
-                if ((screenData[i] & 4) != 0) {
-                    g2d.drawLine(x + blockSize - 1, y, x + blockSize - 1,
-                            y + blockSize - 1);
+                if ((screenData[i] & ScreenDataConstants.rightBorder) != 0) {
+                    g2d.drawLine(x + blockSize - 1, y,
+                            x + blockSize - 1, y + blockSize - 1);
                 }
 
-                if ((screenData[i] & 8) != 0) {
-                    g2d.drawLine(x, y + blockSize - 1, x + blockSize - 1,
-                            y + blockSize - 1);
+                if ((screenData[i] & ScreenDataConstants.bottomBorder) != 0) {
+                    g2d.drawLine(x, y + blockSize - 1,
+							x + blockSize - 1, y + blockSize - 1);
                 }
 
-                if ((screenData[i] & 16) != 0) {
+                if ((screenData[i] & ScreenDataConstants.dotToEat) != 0) {
                     g2d.setColor(dotColor);
-                    g2d.fillRect(x + 11, y + 11, 2, 2);
+                    g2d.fillRect(x + 14, y + 14, 2, 2);
                 }
 
                 i++;
@@ -67,7 +67,7 @@ public class Maze {
         short i = 0;
         while (i < numberOfBlocks * numberOfBlocks) {
 
-            if ((screenData[i] & 48) != 0) {
+            if ((screenData[i] & ScreenDataConstants.dotToEat) != 0) {
 
                 return false;
             }

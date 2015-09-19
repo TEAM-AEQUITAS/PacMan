@@ -44,16 +44,16 @@ public class Pacman extends JPanel {
             position = pacmanX / maze.getBlockSize() + maze.getNumberOfBlocks() * (int) (pacmanY / maze.getBlockSize());
             ch = screenData[position];
 
-            if ((ch & 16) != 0) {
-                screenData[position] = (short) (ch & 15);
+            if ((ch & ScreenDataConstants.dotToEat) != 0) {
+                screenData[position] = (short) (ch & ~ScreenDataConstants.dotToEat);
                 score++;
             }
 
             if (reqDimensionX != 0 || reqDimensionY != 0) {
-                if (!((reqDimensionX == -1 && reqDimensionY == 0 && (ch & 1) != 0)
-                        || (reqDimensionX == 1 && reqDimensionY == 0 && (ch & 4) != 0)
-                        || (reqDimensionX == 0 && reqDimensionY == -1 && (ch & 2) != 0)
-                        || (reqDimensionX == 0 && reqDimensionY == 1 && (ch & 8) != 0))) {
+                if (!((reqDimensionX == -1 && reqDimensionY == 0 && (ch & ScreenDataConstants.leftBorder) != 0)
+                        || (reqDimensionX == 1 && reqDimensionY == 0 && (ch & ScreenDataConstants.rightBorder) != 0)
+                        || (reqDimensionX == 0 && reqDimensionY == -1 && (ch & ScreenDataConstants.topBorder) != 0)
+                        || (reqDimensionX == 0 && reqDimensionY == 1 && (ch & ScreenDataConstants.bottomBorder) != 0))) {
                     pacmanDimensionX = reqDimensionX;
                     pacmanDimensionY = reqDimensionY;
                     viewDimensionX = pacmanDimensionX;
@@ -62,10 +62,10 @@ public class Pacman extends JPanel {
             }
 
             // Check for standstill
-            if ((pacmanDimensionX == -1 && pacmanDimensionY == 0 && (ch & 1) != 0)
-                    || (pacmanDimensionX == 1 && pacmanDimensionY == 0 && (ch & 4) != 0)
-                    || (pacmanDimensionX == 0 && pacmanDimensionY == -1 && (ch & 2) != 0)
-                    || (pacmanDimensionX == 0 && pacmanDimensionY == 1 && (ch & 8) != 0)) {
+            if ((pacmanDimensionX == -1 && pacmanDimensionY == 0 && (ch & ScreenDataConstants.leftBorder) != 0)
+                    || (pacmanDimensionX == 1 && pacmanDimensionY == 0 && (ch & ScreenDataConstants.rightBorder) != 0)
+                    || (pacmanDimensionX == 0 && pacmanDimensionY == -1 && (ch & ScreenDataConstants.topBorder) != 0)
+                    || (pacmanDimensionX == 0 && pacmanDimensionY == 1 && (ch & ScreenDataConstants.bottomBorder) != 0)) {
                 pacmanDimensionX = 0;
                 pacmanDimensionY = 0;
             }
