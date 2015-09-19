@@ -20,12 +20,9 @@ public class Board extends Pacman implements ActionListener {
 	private final Font smallFont = new Font("Helvetica", Font.BOLD, 14);
 
 	private Image ii;
-	private final Color dotColor = new Color(192, 192, 0);
-	private Color mazeColor;
 
 	private boolean dying = false;
 
-	private final int screenSize = numberOfBlocks * blockSize;
 	private final int pacAnimDelay = 2;
 	private final int pacmanAnimCount = 4;
 
@@ -33,6 +30,8 @@ public class Board extends Pacman implements ActionListener {
 	private int pacAnimDir = 1;
 	protected int pacmanLivesLeft;
 	private Ghost[] ghosts;
+	Maze maze = new Maze();
+
 
 	// private Image ghost;
 
@@ -77,8 +76,8 @@ public class Board extends Pacman implements ActionListener {
 
 	private void initVariables() {
 
-		screenData = new short[numberOfBlocks * numberOfBlocks];
-		mazeColor = new Color(5, 100, 5);
+		screenData = new short[maze.getNumberOfBlocks() * maze.getNumberOfBlocks()];
+		maze.initMaze();
 		dimension = new Dimension(600, 600);
 		timer = new Timer(40, this);
 		timer.start();
@@ -113,7 +112,7 @@ public class Board extends Pacman implements ActionListener {
 
 		} else {
 
-			movePacman();
+			movePacman(maze);
 			drawPacman(graphics);
 			moveGhosts(graphics);
 			checkMaze();
@@ -123,9 +122,9 @@ public class Board extends Pacman implements ActionListener {
 	private void showIntroScreen(Graphics2D g2d) {
 
 		g2d.setColor(new Color(0, 32, 48));
-		g2d.fillRect(50, screenSize / 2 - 30, screenSize - 100, 50);
+		g2d.fillRect(50, maze.getScreenSize() / 2 - 30,  maze.getScreenSize() - 100, 50);
 		g2d.setColor(Color.white);
-		g2d.drawRect(50, screenSize / 2 - 30, screenSize - 100, 50);
+		g2d.drawRect(50,  maze.getScreenSize() / 2 - 30,  maze.getScreenSize() - 100, 50);
 
 		String s = "Press ENTER to start.";
 		Font small = new Font("Helvetica", Font.BOLD, 14);
@@ -133,8 +132,8 @@ public class Board extends Pacman implements ActionListener {
 
 		g2d.setColor(Color.white);
 		g2d.setFont(small);
-		g2d.drawString(s, (screenSize - metr.stringWidth(s)) / 2,
-				screenSize / 2);
+		g2d.drawString(s, ( maze.getScreenSize() - metr.stringWidth(s)) / 2,
+				maze.getScreenSize() / 2);
 	}
 
 	private void drawScore(Graphics2D g) {
@@ -145,28 +144,16 @@ public class Board extends Pacman implements ActionListener {
 		g.setFont(smallFont);
 		g.setColor(new Color(96, 128, 255));
 		s = "Score: " + score;
-		g.drawString(s, screenSize / 2 + 96, screenSize + 16);
+		g.drawString(s,  maze.getScreenSize() / 2 + 96,  maze.getScreenSize() + 16);
 
 		for (i = 0; i < pacmanLivesLeft; i++) {
-			g.drawImage(pacman3left, i * 28 + 8, screenSize + 1, this);
+			g.drawImage(pacman3left, i * 28 + 8,  maze.getScreenSize() + 1, this);
 		}
 	}
 
 	private void checkMaze() {
 
-		short i = 0;
-		boolean finished = true;
-
-		while (i < numberOfBlocks * numberOfBlocks && finished) {
-
-			if ((screenData[i] & 48) != 0) {
-				finished = false;
-			}
-
-			i++;
-		}
-
-		if (finished) {
+		if (maze.checkNoDots(screenData)) {
 
 			score += 50;
 
@@ -177,7 +164,6 @@ public class Board extends Pacman implements ActionListener {
 			initLevel();
 		}
 	}
-
 	private void death() {
 
 		pacmanLivesLeft--;
@@ -193,7 +179,7 @@ public class Board extends Pacman implements ActionListener {
 
 		for (short i = 0; i < ghosts.length; i++) {
 			Ghost ghost = ghosts[i];
-			ghost.move(screenData, blockSize, g2d);
+			ghost.move(screenData, maze.getBlockSize(), g2d);
 			//drawGhost(g2d, ghost.ghostX + 1, ghost.ghostY + 1);
 			if (pacmanX > (ghost.ghostX - 15) && pacmanX < (ghost.ghostX + 15)
 					&& pacmanY > (ghost.ghostY - 15)
@@ -204,45 +190,6 @@ public class Board extends Pacman implements ActionListener {
 		}
 	}
 
-	private void drawMaze(Graphics2D g2d) {
-
-		short i = 0;
-		int x, y;
-
-		for (y = 0; y < screenSize; y += blockSize) {
-			for (x = 0; x < screenSize; x += blockSize) {
-
-				g2d.setColor(mazeColor);
-				g2d.setStroke(new BasicStroke(2));
-
-				// Draw wall above block
-				if ((screenData[i] & 1) != 0) {
-					g2d.drawLine(x, y, x, y + blockSize - 1);
-				}
-				// Draw wall to the right of the block
-				if ((screenData[i] & 2) != 0) {
-					g2d.drawLine(x, y, x + blockSize - 1, y);
-				}
-
-				if ((screenData[i] & 4) != 0) {
-					g2d.drawLine(x + blockSize - 1, y, x + blockSize - 1, y
-							+ blockSize - 1);
-				}
-
-				if ((screenData[i] & 8) != 0) {
-					g2d.drawLine(x, y + blockSize - 1, x + blockSize - 1, y
-							+ blockSize - 1);
-				}
-
-				if ((screenData[i] & 16) != 0) {
-					g2d.setColor(dotColor);
-					g2d.fillRect(x + 11, y + 11, 2, 2);
-				}
-
-				i++;
-			}
-		}
-	}
 
 	public void SetMovement(int dimensionX, int dimensionY) {
 		this.reqDimensionX = dimensionX;
@@ -255,9 +202,9 @@ public class Board extends Pacman implements ActionListener {
 		// Array of ghosts
 		ghosts = new Ghost[] { 
 		      new Ghost(0, 0), 
-		      new Ghost(4 * blockSize, 4 * blockSize), 
-		      new Ghost(14 * blockSize, 0), 
-		      new Ghost(blockSize*2, 13 * blockSize)
+		      new Ghost(4 * maze.getBlockSize(), 4 * maze.getBlockSize()),
+		      new Ghost(14 * maze.getBlockSize(), 0),
+		      new Ghost(maze.getBlockSize()*2, 13 * maze.getBlockSize())
 		};
 
 		score = 0;
@@ -268,9 +215,8 @@ public class Board extends Pacman implements ActionListener {
 	}
 
 	private void initLevel() {
-
 		int i;
-		for (i = 0; i < numberOfBlocks * numberOfBlocks; i++) {
+		for (i = 0; i < maze.getNumberOfBlocks()* maze.getNumberOfBlocks(); i++) {
 			screenData[i] = levelData[i];
 		}
 
@@ -291,8 +237,8 @@ public class Board extends Pacman implements ActionListener {
 			dx = -dx;
 		}
 
-		pacmanX = 7 * blockSize;
-		pacmanY = 11 * blockSize;
+		pacmanX = 7 * maze.getBlockSize();
+		pacmanY = 11 * maze.getBlockSize();
 		pacmanDimensionX = 0;
 		pacmanDimensionY = 0;
 		reqDimensionX = 0;
@@ -334,7 +280,7 @@ public class Board extends Pacman implements ActionListener {
 		g2d.setColor(Color.black);
 		g2d.fillRect(0, 0, dimension.width, dimension.height);
 
-		drawMaze(g2d);
+		maze.drawMaze(g2d,screenData);
 		drawScore(g2d);
 		doAnim();
 
