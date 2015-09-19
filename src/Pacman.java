@@ -2,8 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Pacman extends JPanel {
-    protected final int blockSize = 30;
-    protected final int numberOfBlocks = 15;
     private final int pacmanSpeed = 6;
     protected int pacmanAnimPos = 0;
     protected int score;
@@ -30,7 +28,7 @@ public class Pacman extends JPanel {
     protected int viewDimensionY;
     protected short[] screenData;
 
-    protected void movePacman() {
+    protected void movePacman(Maze maze) {
 
         int position;
         short ch;
@@ -42,8 +40,8 @@ public class Pacman extends JPanel {
             viewDimensionY = pacmanDimensionY;
         }
 
-        if (pacmanX % blockSize == 0 && pacmanY % blockSize == 0) {
-            position = pacmanX / blockSize + numberOfBlocks * (int) (pacmanY / blockSize);
+        if (pacmanX % maze.getBlockSize() == 0 && pacmanY % maze.getBlockSize() == 0) {
+            position = pacmanX / maze.getBlockSize() + maze.getNumberOfBlocks() * (int) (pacmanY / maze.getBlockSize());
             ch = screenData[position];
 
             if ((ch & 16) != 0) {
