@@ -45,7 +45,7 @@ public class TAdapter extends KeyAdapter {
         else {
             if (key == KeyEvent.VK_ENTER) {
             	isPlaying = true;
-                board.initGame();
+                //board.initGame();
             }
         }
     }

@@ -30,6 +30,8 @@ public class Pacman extends JPanel {
     protected int viewDimensionY;
     protected short[] screenData;
     protected int pacmanAnimPos = 0;
+	protected int pacmanLivesLeft;
+	protected short[] bonusData;
 
     protected void movePacman(Maze maze) {
         calculatePacmanPosition(maze);
@@ -40,6 +42,7 @@ public class Pacman extends JPanel {
     private void calculatePacmanPosition(Maze maze) {
         int position;
         short ch;
+        short bPos; // Position on bonus data array
         if (reqDimensionX == -pacmanDimensionX && reqDimensionY == -pacmanDimensionY) {
             pacmanDimensionX = reqDimensionX;
             pacmanDimensionY = reqDimensionY;
@@ -50,10 +53,18 @@ public class Pacman extends JPanel {
         if (pacmanX % maze.getBlockSize() == 0 && pacmanY % maze.getBlockSize() == 0) {
             position = pacmanX / maze.getBlockSize() + maze.getNumberOfBlocks() * (int) (pacmanY / maze.getBlockSize());
             ch = screenData[position];
+            bPos = bonusData[position];
 
             if ((ch & ScreenDataConstants.dotToEat) != 0) {
                 screenData[position] = (short) (ch & ~ScreenDataConstants.dotToEat);
                 score++;
+            }
+            if (bPos == 1) {
+            	// Maximum lives is 7, to limit life gathering
+            	if (pacmanLivesLeft < 7) {
+            		pacmanLivesLeft +=1;
+            	}
+            	bonusData[position] = 0;
             }
 
             if (reqDimensionX != 0 || reqDimensionY != 0) {

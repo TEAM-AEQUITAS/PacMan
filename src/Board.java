@@ -8,6 +8,7 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -26,7 +27,6 @@ public class Board extends JPanel implements ActionListener {
 
 	private int pacAnimCount = pacAnimDelay;
 	private int pacAnimDir = 1;
-	protected int pacmanLivesLeft;
 	private int level;
 	private Ghost[] ghosts;
 	private Pacman pacman;
@@ -47,7 +47,7 @@ public class Board extends JPanel implements ActionListener {
 			21,  0, 17, 16, 16, 16, 16, 18, 16, 16, 16, 16, 20,  0, 21, 
 			21,  0, 25, 16, 24, 24, 24, 16, 24, 24, 24, 16, 28,  0, 21, 
 			21,  0,  0, 21,  0,  0,  0, 21,  0,  0,  0, 21,  0,  0, 21, 
-			25, 26, 26, 24, 26, 26, 26, 24, 26, 26, 26, 24, 26, 26, 28 };
+			25, 26, 26, 24, 26, 26, 26, 24, 26, 26, 26, 24, 26, 26, 28 };			
 			
 	private final int maxSpeed = 6;
 
@@ -75,6 +75,7 @@ public class Board extends JPanel implements ActionListener {
 	private void initVariables() {
 
 		pacman.screenData = new short[maze.getNumberOfBlocks() * maze.getNumberOfBlocks()];
+		pacman.bonusData = new short[maze.getNumberOfBlocks() * maze.getNumberOfBlocks()];
 		maze.initMaze();
 		dimension = new Dimension(600, 600);
 		timer = new Timer(40, this);
@@ -148,7 +149,7 @@ public class Board extends JPanel implements ActionListener {
 		g.drawString(scoreString,  maze.getScreenSize() / 2 + 96,  maze.getScreenSize() + 16);
 		
 		Image pacman3left = new ImageIcon("images/pacman3left.gif").getImage();
-		for (i = 0; i < pacmanLivesLeft; i++) {
+		for (i = 0; i < pacman.pacmanLivesLeft; i++) {
 			g.drawImage(pacman3left, i * 28 + 8,  maze.getScreenSize() + 1, this);
 		}
 	}
@@ -168,9 +169,9 @@ public class Board extends JPanel implements ActionListener {
 	}
 	private void death() {
 
-		pacmanLivesLeft--;
+		pacman.pacmanLivesLeft--;
 
-		if (pacmanLivesLeft == 0) {
+		if (pacman.pacmanLivesLeft == 0) {
 			adapter.isPlaying = false;
 		}
 
@@ -200,7 +201,7 @@ public class Board extends JPanel implements ActionListener {
 
 	public void initGame() {
 
-		pacmanLivesLeft = 3;
+		pacman.pacmanLivesLeft = 3;
 		
 		pacman.score = 0;
 		level = 1;
@@ -209,12 +210,32 @@ public class Board extends JPanel implements ActionListener {
 		currentSpeed = 3;
 	}
 
+	private void setBonusData(){
+		
+		pacman.bonusData = new short[maze.getNumberOfBlocks() * maze.getNumberOfBlocks()];
+		int i;
+		int extras = 0;
+		for (i = 0; i < maze.getNumberOfBlocks()* maze.getNumberOfBlocks(); i++) {
+			Random random = new Random();
+			int n = random.nextInt(1000);
+			if (n < 12 && levelData[i] != 0 && extras < 3) {
+				pacman.bonusData[i] = 1;
+				extras++;
+			}
+			else {
+				pacman.bonusData[i] = 0;
+			}	
+		}
+	}
+	
+	
 	private void initLevel() {
 		int i;
 		for (i = 0; i < maze.getNumberOfBlocks()* maze.getNumberOfBlocks(); i++) {
 			pacman.screenData[i] = levelData[i];
 		}
 
+		setBonusData();
 		continueLevel();
 	}
 
@@ -265,7 +286,7 @@ public class Board extends JPanel implements ActionListener {
 		graphics.setColor(Color.black);
 		graphics.fillRect(0, 0, dimension.width, dimension.height);
 
-		maze.drawMaze(graphics,pacman.screenData);
+		maze.drawMaze(graphics, pacman.screenData, pacman.bonusData);
 		drawScoreAndLevel(graphics);
 		doAnim();
 

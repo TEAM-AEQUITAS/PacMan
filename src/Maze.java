@@ -22,8 +22,7 @@ public class Maze {
     Maze(){
     }
 
-    public void drawMaze(Graphics2D g2d, short[] screenData) {
-
+    public void drawMaze(Graphics2D g2d, short[] screenData, short[] bonusData) {
 
         short i = 0;
         int x, y;
@@ -57,6 +56,11 @@ public class Maze {
                     g2d.fillRect(x + 14, y + 14, 2, 2);
                 }
 
+                if (bonusData[i] == 1) {
+                	g2d.setColor(dotColor);
+                    g2d.fillOval(x + 10, y + 10, 10, 10);
+                }
+                        
                 i++;
             }
         }
@@ -64,6 +68,7 @@ public class Maze {
 
 
     public boolean checkNoDots(short[] screenData){
+
         short i = 0;
         while (i < numberOfBlocks * numberOfBlocks) {
 
@@ -76,8 +81,10 @@ public class Maze {
         }
         return true;
     }
+    
     public void initMaze() {
-        mazeColor = Color.BLUE; //new Color(5, 100, 5);
+    	
+        mazeColor = Color.BLUE;
     }
 
 }
