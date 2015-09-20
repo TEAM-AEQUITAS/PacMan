@@ -1,17 +1,16 @@
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 
-public class MainGame extends JFrame {
+public class Game extends JFrame implements Runnable {
 
 	private static final long serialVersionUID = 1L;
 
-	public MainGame() {
+	public Game() {
         
         initUI();
     }
     
     private void initUI() {
-        
         add(new Board());
         setTitle("Pacman");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -20,15 +19,8 @@ public class MainGame extends JFrame {
         setVisible(true);        
     }
 
-    public static void main(String[] args) {
+    @Override
+    public void run() {
 
-        EventQueue.invokeLater(new Runnable() {
-
-            @Override
-            public void run() {
-                MainGame ex = new MainGame();
-                ex.setVisible(true);
-            }
-        });
     }
 }
