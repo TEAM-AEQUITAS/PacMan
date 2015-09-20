@@ -29,10 +29,14 @@ public class Pacman extends JPanel {
     protected short[] screenData;
 
     protected void movePacman(Maze maze) {
+        calculatePacmanPosition(maze);
+        pacmanX = pacmanX + pacmanSpeed * pacmanDimensionX;
+        pacmanY = pacmanY + pacmanSpeed * pacmanDimensionY;
+    }
 
+    private void calculatePacmanPosition(Maze maze) {
         int position;
         short ch;
-
         if (reqDimensionX == -pacmanDimensionX && reqDimensionY == -pacmanDimensionY) {
             pacmanDimensionX = reqDimensionX;
             pacmanDimensionY = reqDimensionY;
@@ -60,18 +64,19 @@ public class Pacman extends JPanel {
                     viewDimensionY = pacmanDimensionY;
                 }
             }
-
-            // Check for standstill
-            if ((pacmanDimensionX == -1 && pacmanDimensionY == 0 && (ch & ScreenDataConstants.leftBorder) != 0)
-                    || (pacmanDimensionX == 1 && pacmanDimensionY == 0 && (ch & ScreenDataConstants.rightBorder) != 0)
-                    || (pacmanDimensionX == 0 && pacmanDimensionY == -1 && (ch & ScreenDataConstants.topBorder) != 0)
-                    || (pacmanDimensionX == 0 && pacmanDimensionY == 1 && (ch & ScreenDataConstants.bottomBorder) != 0)) {
-                pacmanDimensionX = 0;
-                pacmanDimensionY = 0;
-            }
+            checkForStandstill(ch);
         }
-        pacmanX = pacmanX + pacmanSpeed * pacmanDimensionX;
-        pacmanY = pacmanY + pacmanSpeed * pacmanDimensionY;
+    }
+
+
+    private void checkForStandstill(short ch) {
+        if ((pacmanDimensionX == -1 && pacmanDimensionY == 0 && (ch & ScreenDataConstants.leftBorder) != 0)
+                || (pacmanDimensionX == 1 && pacmanDimensionY == 0 && (ch & ScreenDataConstants.rightBorder) != 0)
+                || (pacmanDimensionX == 0 && pacmanDimensionY == -1 && (ch & ScreenDataConstants.topBorder) != 0)
+                || (pacmanDimensionX == 0 && pacmanDimensionY == 1 && (ch & ScreenDataConstants.bottomBorder) != 0)) {
+            pacmanDimensionX = 0;
+            pacmanDimensionY = 0;
+        }
     }
 
     protected void drawPacman(Graphics2D g2d) {
