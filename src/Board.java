@@ -49,9 +49,9 @@ public class Board extends JPanel implements ActionListener {
 			21,  0,  0, 21,  0,  0,  0, 21,  0,  0,  0, 21,  0,  0, 21, 
 			25, 26, 26, 24, 26, 26, 26, 24, 26, 26, 26, 24, 26, 26, 28 };			
 			
-	private final int maxSpeed = 6;
+	private final int maxSpeed =9;
 
-	private int currentSpeed = 2;
+	private int currentSpeed = 3;
 	public Timer timer;
 
 	private TAdapter adapter;
