@@ -1,9 +1,11 @@
 import javax.swing.*;
+
 import java.awt.*;
 
 public class Pacman extends JPanel {
+	
     private final int pacmanSpeed = 6;
-    protected int pacmanAnimPos = 0;
+    
     protected int score;
     protected Image pacman1;
     protected Image pacman2up;
@@ -27,13 +29,14 @@ public class Pacman extends JPanel {
     protected int viewDimensionX;
     protected int viewDimensionY;
     protected short[] screenData;
+    protected int pacmanAnimPos = 0;
 
     protected void movePacman(Maze maze) {
         calculatePacmanPosition(maze);
         pacmanX = pacmanX + pacmanSpeed * pacmanDimensionX;
         pacmanY = pacmanY + pacmanSpeed * pacmanDimensionY;
     }
-
+      
     private void calculatePacmanPosition(Maze maze) {
         int position;
         short ch;
@@ -67,8 +70,7 @@ public class Pacman extends JPanel {
             checkForStandstill(ch);
         }
     }
-
-
+     
     private void checkForStandstill(short ch) {
         if ((pacmanDimensionX == -1 && pacmanDimensionY == 0 && (ch & ScreenDataConstants.leftBorder) != 0)
                 || (pacmanDimensionX == 1 && pacmanDimensionY == 0 && (ch & ScreenDataConstants.rightBorder) != 0)
@@ -95,21 +97,21 @@ public class Pacman extends JPanel {
     protected void drawPacmanOriented(Graphics2D g2d, PacmanDirections direction) {
         switch (pacmanAnimPos) {
             case 1:
-                g2d.drawImage(GetPacManImage(direction, 1), pacmanX + 1, pacmanY + 1, this);
+                g2d.drawImage(getPacManImage(direction, 1), pacmanX + 1, pacmanY + 1, this);
                 break;
             case 2:
-                g2d.drawImage(GetPacManImage(direction, 2), pacmanX + 1, pacmanY + 1, this);
+                g2d.drawImage(getPacManImage(direction, 2), pacmanX + 1, pacmanY + 1, this);
                 break;
             case 3:
-                g2d.drawImage(GetPacManImage(direction, 3), pacmanX + 1, pacmanY + 1, this);
+                g2d.drawImage(getPacManImage(direction, 3), pacmanX + 1, pacmanY + 1, this);
                 break;
             default:
-                g2d.drawImage(GetPacManImage(direction, 4), pacmanX + 1, pacmanY + 1, this);
+                g2d.drawImage(getPacManImage(direction, 4), pacmanX + 1, pacmanY + 1, this);
                 break;
         }
     }
 
-    private Image GetPacManImage (PacmanDirections direction , int position){
+    private Image getPacManImage (PacmanDirections direction , int position){
 
         Image currentImage = pacman1;
 
@@ -168,4 +170,23 @@ public class Pacman extends JPanel {
             }
         return currentImage;
     }
+    
+    public void loadImages() {
+
+		pacman1 = new ImageIcon("images/pacman1.gif").getImage();
+		pacman2up = new ImageIcon("images/pacman2up.gif").getImage();
+		pacman3up = new ImageIcon("images/pacman3up.gif").getImage();
+		pacman4up = new ImageIcon("images/pacman4up.gif").getImage();
+		pacman2down = new ImageIcon("images/pacman2down.gif").getImage();
+		pacman3down = new ImageIcon("images/pacman3down.gif").getImage();
+		pacman4down = new ImageIcon("images/pacman4down.gif").getImage();
+		pacman2left = new ImageIcon("images/pacman2left.gif").getImage();
+		pacman3left = new ImageIcon("images/pacman3left.gif").getImage();
+		pacman4left = new ImageIcon("images/pacman4left.gif").getImage();
+		pacman2right = new ImageIcon("images/pacman2right.gif").getImage();
+		pacman3right = new ImageIcon("images/pacman3right.gif").getImage();
+		pacman4right = new ImageIcon("images/pacman4right.gif").getImage();
+
+	}
+    
 }

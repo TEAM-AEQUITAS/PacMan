@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 
 public class Ghost extends JPanel {
 
+	private static final long serialVersionUID = 1L;
 	//Current position X
 	public int ghostX;
 	//Current position Y
@@ -16,14 +17,20 @@ public class Ghost extends JPanel {
 	public int ghostDX;
 	public int ghostDY;
 	private int speed;
-	private final int validspeeds[] = { 2, 3, 4, 5, 6, 8 };
+	private final int validSpeeds[] = {1, 2, 3, 4, 5, 6, 8 };
 	
 	public Ghost(int initialPositionX, int initialPositionY, int level)  {
 		
 		ghostX = initialPositionX;
 		ghostY = initialPositionY;
 		
-		speed = validspeeds[level];	
+		// ghost speed according to level
+		if (level > validSpeeds.length) {
+			speed = validSpeeds[validSpeeds.length - 1];
+		}
+		else {
+			speed = validSpeeds[level];	
+		}
 	}
 
     public void move(short screenData[], int blockSize, Graphics2D g2d, int pacmanX, int pacmanY) {

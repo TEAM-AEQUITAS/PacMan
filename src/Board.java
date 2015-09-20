@@ -1,4 +1,3 @@
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -11,9 +10,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
+import javax.swing.JPanel;
 import javax.swing.Timer;
 
-public class Board extends Pacman implements ActionListener {
+public class Board extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private Dimension dimension;
@@ -29,6 +29,7 @@ public class Board extends Pacman implements ActionListener {
 	protected int pacmanLivesLeft;
 	private int level;
 	private Ghost[] ghosts;
+	private Pacman pacman;
 	Maze maze = new Maze();
 
 	private final short levelData[] = {
@@ -57,7 +58,8 @@ public class Board extends Pacman implements ActionListener {
 
 	public Board() {
 
-		loadImages();
+		pacman = new Pacman();
+		pacman.loadImages();
 		initVariables();
 
 		adapter = new TAdapter(this);
@@ -72,7 +74,7 @@ public class Board extends Pacman implements ActionListener {
 
 	private void initVariables() {
 
-		screenData = new short[maze.getNumberOfBlocks() * maze.getNumberOfBlocks()];
+		pacman.screenData = new short[maze.getNumberOfBlocks() * maze.getNumberOfBlocks()];
 		maze.initMaze();
 		dimension = new Dimension(600, 600);
 		timer = new Timer(40, this);
@@ -92,9 +94,9 @@ public class Board extends Pacman implements ActionListener {
 
 		if (pacAnimCount <= 0) {
 			pacAnimCount = pacAnimDelay;
-			pacmanAnimPos = pacmanAnimPos + pacAnimDir;
+			pacman.pacmanAnimPos = pacman.pacmanAnimPos + pacAnimDir;
 
-			if (pacmanAnimPos == (pacmanAnimCount - 1) || pacmanAnimPos == 0) {
+			if (pacman.pacmanAnimPos == (pacmanAnimCount - 1) || pacman.pacmanAnimPos == 0) {
 				pacAnimDir = -pacAnimDir;
 			}
 		}
@@ -108,8 +110,8 @@ public class Board extends Pacman implements ActionListener {
 
 		} else {
 
-			movePacman(maze);
-			drawPacman(graphics);
+			pacman.movePacman(maze);
+			pacman.drawPacman(graphics);
 			moveGhosts(graphics);
 			checkMaze();
 		}
@@ -132,16 +134,20 @@ public class Board extends Pacman implements ActionListener {
 				maze.getScreenSize() / 2);
 	}
 
-	private void drawScore(Graphics2D g) {
+	private void drawScoreAndLevel(Graphics2D g) {
 
 		int i;
-		String s;
+		String scoreString;
+		String levelString;
 
 		g.setFont(smallFont);
-		g.setColor(new Color(96, 128, 255));
-		s = "Score: " + score;
-		g.drawString(s,  maze.getScreenSize() / 2 + 96,  maze.getScreenSize() + 16);
-
+		g.setColor(Color.BLUE);
+		scoreString = "Score: " + pacman.score;
+		levelString = "Level: " + level;
+		g.drawString(levelString,  maze.getScreenSize() / 2,  maze.getScreenSize() + 16);
+		g.drawString(scoreString,  maze.getScreenSize() / 2 + 96,  maze.getScreenSize() + 16);
+		
+		Image pacman3left = new ImageIcon("images/pacman3left.gif").getImage();
 		for (i = 0; i < pacmanLivesLeft; i++) {
 			g.drawImage(pacman3left, i * 28 + 8,  maze.getScreenSize() + 1, this);
 		}
@@ -149,10 +155,10 @@ public class Board extends Pacman implements ActionListener {
 
 	private void checkMaze() {
 
-		if (maze.checkNoDots(screenData)) {
+		if (maze.checkNoDots(pacman.screenData)) {
 
-			score += 50;
-
+		    pacman.score += 50;
+			level++;
 			if (currentSpeed < maxSpeed) {
 				currentSpeed++;
 			}
@@ -171,15 +177,15 @@ public class Board extends Pacman implements ActionListener {
 		continueLevel();
 	}
 
-	private void moveGhosts(Graphics2D g2d) {
+	private void moveGhosts(Graphics2D graphics) {
 
 		for (short i = 0; i < ghosts.length; i++) {
 			Ghost ghost = ghosts[i];
-			ghost.move(screenData, maze.getBlockSize(), g2d, pacmanX/maze.getBlockSize(), pacmanY/maze.getBlockSize());
+			ghost.move(pacman.screenData, maze.getBlockSize(), graphics, pacman.pacmanX/maze.getBlockSize(), pacman.pacmanY/maze.getBlockSize());
 			//drawGhost(g2d, ghost.ghostX + 1, ghost.ghostY + 1);
-			if (pacmanX > (ghost.ghostX - 15) && pacmanX < (ghost.ghostX + 15)
-					&& pacmanY > (ghost.ghostY - 15)
-					&& pacmanY < (ghost.ghostY + 15) && adapter.isPlaying) {
+			if (pacman.pacmanX > (ghost.ghostX - 15) && pacman.pacmanX < (ghost.ghostX + 15)
+					&& pacman.pacmanY > (ghost.ghostY - 15)
+					&& pacman.pacmanY < (ghost.ghostY + 15) && adapter.isPlaying) {
 
 				dying = true;
 			}
@@ -188,16 +194,16 @@ public class Board extends Pacman implements ActionListener {
 
 
 	public void SetMovement(int dimensionX, int dimensionY) {
-		this.reqDimensionX = dimensionX;
-		this.reqDimensionY = dimensionY;
+		pacman.reqDimensionX = dimensionX;
+		pacman.reqDimensionY = dimensionY;
 	}
 
 	public void initGame() {
 
 		pacmanLivesLeft = 3;
 		
-		score = 0;
-
+		pacman.score = 0;
+		level = 1;
 		initLevel();
 
 		currentSpeed = 3;
@@ -206,7 +212,7 @@ public class Board extends Pacman implements ActionListener {
 	private void initLevel() {
 		int i;
 		for (i = 0; i < maze.getNumberOfBlocks()* maze.getNumberOfBlocks(); i++) {
-			screenData[i] = levelData[i];
+			pacman.screenData[i] = levelData[i];
 		}
 
 		continueLevel();
@@ -216,7 +222,6 @@ public class Board extends Pacman implements ActionListener {
 		
 		short i;
 		int dx = 1;
-		level = 1;
 		
 		ghosts = new Ghost[] { 
 			      new Ghost(0, 0, level), 
@@ -233,38 +238,18 @@ public class Board extends Pacman implements ActionListener {
 	
 	private void continueLevel() {
 
-	
-
 		initGhosts();
-
-		pacmanX = 7 * maze.getBlockSize();
-		pacmanY = 11 * maze.getBlockSize();
-		pacmanDimensionX = 0;
-		pacmanDimensionY = 0;
-		reqDimensionX = 0;
-		reqDimensionY = 0;
-		viewDimensionX = -1;
-		viewDimensionY = 0;
+		pacman.pacmanX = 7 * maze.getBlockSize();
+		pacman.pacmanY = 11 * maze.getBlockSize();
+		pacman.pacmanDimensionX = 0;
+		pacman.pacmanDimensionY = 0;
+		pacman.reqDimensionX = 0;
+		pacman.reqDimensionY = 0;
+		pacman.viewDimensionX = -1;
+		pacman.viewDimensionY = 0;
 		dying = false;
 	}
 
-	private void loadImages() {
-
-		pacman1 = new ImageIcon("images/pacman1.gif").getImage();
-		pacman2up = new ImageIcon("images/pacman2up.gif").getImage();
-		pacman3up = new ImageIcon("images/pacman3up.gif").getImage();
-		pacman4up = new ImageIcon("images/pacman4up.gif").getImage();
-		pacman2down = new ImageIcon("images/pacman2down.gif").getImage();
-		pacman3down = new ImageIcon("images/pacman3down.gif").getImage();
-		pacman4down = new ImageIcon("images/pacman4down.gif").getImage();
-		pacman2left = new ImageIcon("images/pacman2left.gif").getImage();
-		pacman3left = new ImageIcon("images/pacman3left.gif").getImage();
-		pacman4left = new ImageIcon("images/pacman4left.gif").getImage();
-		pacman2right = new ImageIcon("images/pacman2right.gif").getImage();
-		pacman3right = new ImageIcon("images/pacman3right.gif").getImage();
-		pacman4right = new ImageIcon("images/pacman4right.gif").getImage();
-
-	}
 
 	@Override
 	public void paintComponent(Graphics g) {
@@ -275,23 +260,23 @@ public class Board extends Pacman implements ActionListener {
 
 	private void doDrawing(Graphics g) {
 
-		Graphics2D g2d = (Graphics2D) g;
+		Graphics2D graphics = (Graphics2D) g;
 
-		g2d.setColor(Color.black);
-		g2d.fillRect(0, 0, dimension.width, dimension.height);
+		graphics.setColor(Color.black);
+		graphics.fillRect(0, 0, dimension.width, dimension.height);
 
-		maze.drawMaze(g2d,screenData);
-		drawScore(g2d);
+		maze.drawMaze(graphics,pacman.screenData);
+		drawScoreAndLevel(graphics);
 		doAnim();
 
 		if (adapter.isPlaying) {
-			playGame(g2d);
+			playGame(graphics);
 		} else {
-			showIntroScreen(g2d);
+			showIntroScreen(graphics);
 		}
 	
 		Toolkit.getDefaultToolkit().sync();
-		g2d.dispose();
+		graphics.dispose();
 	}
 
 	@Override
