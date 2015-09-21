@@ -1,4 +1,0 @@
-d = dimension
-pos = position
-req = ?
-ch = ?
