@@ -33,14 +33,14 @@ public class Board extends JPanel implements ActionListener {
 	Maze maze = new Maze();
 
 	private final short levelData[] = {
-			19, 26, 26, 18, 26, 26, 26, 18, 26, 26, 26, 18, 26, 26, 22, 
-			21,  0,  0, 21,  0,  0,  0, 21,  0,  0,  0, 21,  0,  0, 21, 
+			19, 26, 26, 18, 26, 26, 26, 18, 26, 26, 26, 18, 26, 26, 22,
+			21,  0,  0, 21,  0,  0,  0, 21,  0,  0,  0, 21,  0,  0, 21,
 			21,  0, 19, 16, 18, 18, 18, 16, 18, 18, 18, 16, 22,  0, 21,
             21,  0, 17, 16, 16, 16, 16, 24, 16, 16, 16, 16, 20,  0, 21, 
             21,  0, 17, 16, 16, 16, 20,  0, 17, 16, 16, 16, 20,  0, 21, 
             21,  0, 17, 16, 16, 16, 20,  0, 17, 16, 16, 16, 20,  0, 21, 
             21,  0, 17, 16, 24, 24, 28,  0, 25, 24, 24, 16, 20,  0, 21, 
-            17, 26, 16, 20,  0,  0,  0,  0,  0,  0,  0, 17, 16, 26, 20, 
+            17, 26, 16, 20,  0,  0,  0,  0,  0,  0,  0, 17, 16, 26, 20,
             21,  0, 17, 16, 18, 18, 22,  0, 19, 18, 18, 16, 20,  0, 21, 
             21,  0, 17, 16, 16, 16, 20,  0, 17, 16, 16, 16, 20,  0, 21,
 			21,  0, 17, 16, 16, 16, 20,  0, 17, 16, 16, 16, 20,  0, 21, 
@@ -149,7 +149,7 @@ public class Board extends JPanel implements ActionListener {
 		g.drawString(scoreString,  maze.getScreenSize() / 2 + 96,  maze.getScreenSize() + 16);
 		
 		Image pacman3left = new ImageIcon("images/pacman3left.gif").getImage();
-		for (i = 0; i < pacman.pacmanLivesLeft; i++) {
+		for (i = 0; i < pacman.pacmanLifesLeft; i++) {
 			g.drawImage(pacman3left, i * 28 + 8,  maze.getScreenSize() + 1, this);
 		}
 	}
@@ -169,10 +169,12 @@ public class Board extends JPanel implements ActionListener {
 	}
 	private void death() {
 
-		pacman.pacmanLivesLeft--;
+		pacman.pacmanLifesLeft--;
 
-		if (pacman.pacmanLivesLeft == 0) {
+		if (pacman.pacmanLifesLeft == 0) {
 			adapter.isPlaying = false;
+			initGame();
+
 		}
 
 		continueLevel();
@@ -201,7 +203,7 @@ public class Board extends JPanel implements ActionListener {
 
 	public void initGame() {
 
-		pacman.pacmanLivesLeft = 3;
+		pacman.pacmanLifesLeft = 3;
 		
 		pacman.score = 0;
 		level = 1;
