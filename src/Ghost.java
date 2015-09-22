@@ -17,7 +17,7 @@ public class Ghost extends JPanel {
 	public int ghostDX;
 	public int ghostDY;
 	private int speed;
-	private final int validSpeeds[] = {1, 2, 3, 4, 5, 6, 8 };
+	private final int validSpeeds[] = {1, 2, 3};
 	
 	public Ghost(int initialPositionX, int initialPositionY, int level)  {
 		
@@ -25,11 +25,11 @@ public class Ghost extends JPanel {
 		ghostY = initialPositionY;
 		
 		// ghost speed according to level
-		if (level > validSpeeds.length) {
+		if (level >= validSpeeds.length) {
 			speed = validSpeeds[validSpeeds.length - 1];
 		}
 		else {
-			speed = validSpeeds[level];	
+			speed = validSpeeds[level-1];	
 		}
 	}
 
@@ -68,10 +68,10 @@ public class Ghost extends JPanel {
 		drawGhost(g2d, ghostX + 1, ghostY + 1);
     }
 
-	private void drawGhost(Graphics2D g2d, int x, int y) {
+	private void drawGhost(Graphics2D graphics, int x, int y) {
 
 		Image ghostImage = new ImageIcon("images/ghost.gif").getImage();
-		g2d.drawImage(ghostImage, x, y, this);
+		graphics.drawImage(ghostImage, x, y, this);
 	}
 
     private static class PossibleMoves

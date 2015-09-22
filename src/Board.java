@@ -32,26 +32,21 @@ public class Board extends JPanel implements ActionListener {
 	private Pacman pacman;
 	Maze maze = new Maze();
 
-	private final short levelData[] = {
-			19, 26, 26, 18, 26, 26, 26, 18, 26, 26, 26, 18, 26, 26, 22,
-			21,  0,  0, 21,  0,  0,  0, 21,  0,  0,  0, 21,  0,  0, 21,
-			21,  0, 19, 16, 18, 18, 18, 16, 18, 18, 18, 16, 22,  0, 21,
-            21,  0, 17, 16, 16, 16, 16, 24, 16, 16, 16, 16, 20,  0, 21, 
-            21,  0, 17, 16, 16, 16, 20,  0, 17, 16, 16, 16, 20,  0, 21, 
-            21,  0, 17, 16, 16, 16, 20,  0, 17, 16, 16, 16, 20,  0, 21, 
-            21,  0, 17, 16, 24, 24, 28,  0, 25, 24, 24, 16, 20,  0, 21, 
-            17, 26, 16, 20,  0,  0,  0,  0,  0,  0,  0, 17, 16, 26, 20,
-            21,  0, 17, 16, 18, 18, 22,  0, 19, 18, 18, 16, 20,  0, 21, 
-            21,  0, 17, 16, 16, 16, 20,  0, 17, 16, 16, 16, 20,  0, 21,
-			21,  0, 17, 16, 16, 16, 20,  0, 17, 16, 16, 16, 20,  0, 21, 
-			21,  0, 17, 16, 16, 16, 16, 18, 16, 16, 16, 16, 20,  0, 21, 
-			21,  0, 25, 16, 24, 24, 24, 16, 24, 24, 24, 16, 28,  0, 21, 
-			21,  0,  0, 21,  0,  0,  0, 21,  0,  0,  0, 21,  0,  0, 21, 
-			25, 26, 26, 24, 26, 26, 26, 24, 26, 26, 26, 24, 26, 26, 28 };			
-			
-	private final int maxSpeed =9;
+	private final short levelData[] = { 19, 26, 26, 18, 26, 26, 26, 18, 26, 26,
+			26, 18, 26, 26, 22, 21, 0, 0, 21, 0, 0, 0, 21, 0, 0, 0, 21, 0, 0,
+			21, 21, 0, 19, 16, 18, 18, 18, 16, 18, 18, 18, 16, 22, 0, 21, 21,
+			0, 17, 16, 16, 16, 16, 24, 16, 16, 16, 16, 20, 0, 21, 21, 0, 17,
+			16, 16, 16, 20, 0, 17, 16, 16, 16, 20, 0, 21, 21, 0, 17, 16, 16,
+			16, 20, 0, 17, 16, 16, 16, 20, 0, 21, 21, 0, 17, 16, 24, 24, 28, 0,
+			25, 24, 24, 16, 20, 0, 21, 17, 26, 16, 20, 0, 0, 0, 0, 0, 0, 0, 17,
+			16, 26, 20, 21, 0, 17, 16, 18, 18, 22, 0, 19, 18, 18, 16, 20, 0,
+			21, 21, 0, 17, 16, 16, 16, 20, 0, 17, 16, 16, 16, 20, 0, 21, 21, 0,
+			17, 16, 16, 16, 20, 0, 17, 16, 16, 16, 20, 0, 21, 21, 0, 17, 16,
+			16, 16, 16, 18, 16, 16, 16, 16, 20, 0, 21, 21, 0, 25, 16, 24, 24,
+			24, 16, 24, 24, 24, 16, 28, 0, 21, 21, 0, 0, 21, 0, 0, 0, 21, 0, 0,
+			0, 21, 0, 0, 21, 25, 26, 26, 24, 26, 26, 26, 24, 26, 26, 26, 24,
+			26, 26, 28 };
 
-	private int currentSpeed = 3;
 	public Timer timer;
 
 	private TAdapter adapter;
@@ -74,8 +69,10 @@ public class Board extends JPanel implements ActionListener {
 
 	private void initVariables() {
 
-		pacman.screenData = new short[maze.getNumberOfBlocks() * maze.getNumberOfBlocks()];
-		pacman.bonusData = new short[maze.getNumberOfBlocks() * maze.getNumberOfBlocks()];
+		pacman.screenData = new short[maze.getNumberOfBlocks()
+				* maze.getNumberOfBlocks()];
+		pacman.bonusData = new short[maze.getNumberOfBlocks()
+				* maze.getNumberOfBlocks()];
 		maze.initMaze();
 		dimension = new Dimension(600, 600);
 		timer = new Timer(40, this);
@@ -97,7 +94,8 @@ public class Board extends JPanel implements ActionListener {
 			pacAnimCount = pacAnimDelay;
 			pacman.pacmanAnimPos = pacman.pacmanAnimPos + pacAnimDir;
 
-			if (pacman.pacmanAnimPos == (pacmanAnimCount - 1) || pacman.pacmanAnimPos == 0) {
+			if (pacman.pacmanAnimPos == (pacmanAnimCount - 1)
+					|| pacman.pacmanAnimPos == 0) {
 				pacAnimDir = -pacAnimDir;
 			}
 		}
@@ -118,20 +116,22 @@ public class Board extends JPanel implements ActionListener {
 		}
 	}
 
-	private void showIntroScreen(Graphics2D g2d) {
+	private void showIntroScreen(Graphics2D graphics) {
 
-		g2d.setColor(new Color(0, 32, 48));
-		g2d.fillRect(50, maze.getScreenSize() / 2 - 30,  maze.getScreenSize() - 100, 50);
-		g2d.setColor(Color.white);
-		g2d.drawRect(50,  maze.getScreenSize() / 2 - 30,  maze.getScreenSize() - 100, 50);
+		graphics.setColor(new Color(0, 32, 48));
+		graphics.fillRect(50, maze.getScreenSize() / 2 - 30,
+				maze.getScreenSize() - 100, 50);
+		graphics.setColor(Color.white);
+		graphics.drawRect(50, maze.getScreenSize() / 2 - 30,
+				maze.getScreenSize() - 100, 50);
 
 		String s = "Press ENTER to start.";
 		Font small = new Font("Helvetica", Font.BOLD, 14);
 		FontMetrics metr = this.getFontMetrics(small);
 
-		g2d.setColor(Color.white);
-		g2d.setFont(small);
-		g2d.drawString(s, ( maze.getScreenSize() - metr.stringWidth(s)) / 2,
+		graphics.setColor(Color.white);
+		graphics.setFont(small);
+		graphics.drawString(s, (maze.getScreenSize() - metr.stringWidth(s)) / 2,
 				maze.getScreenSize() / 2);
 	}
 
@@ -145,12 +145,14 @@ public class Board extends JPanel implements ActionListener {
 		g.setColor(Color.BLUE);
 		scoreString = "Score: " + pacman.score;
 		levelString = "Level: " + level;
-		g.drawString(levelString,  maze.getScreenSize() / 2,  maze.getScreenSize() + 16);
-		g.drawString(scoreString,  maze.getScreenSize() / 2 + 96,  maze.getScreenSize() + 16);
-		
+		g.drawString(levelString, maze.getScreenSize() / 2,
+				maze.getScreenSize() + 16);
+		g.drawString(scoreString, maze.getScreenSize() / 2 + 96,
+				maze.getScreenSize() + 16);
+
 		Image pacman3left = new ImageIcon("images/pacman3left.gif").getImage();
 		for (i = 0; i < pacman.pacmanLivesLeft; i++) {
-			g.drawImage(pacman3left, i * 28 + 8,  maze.getScreenSize() + 1, this);
+			g.drawImage(pacman3left, i * 28 + 8, maze.getScreenSize() + 1, this);
 		}
 	}
 
@@ -158,15 +160,12 @@ public class Board extends JPanel implements ActionListener {
 
 		if (maze.checkNoDots(pacman.screenData)) {
 
-		    pacman.score += 50;
+			pacman.score += 50;
 			level++;
-			if (currentSpeed < maxSpeed) {
-				currentSpeed++;
-			}
-
 			initLevel();
 		}
 	}
+
 	private void death() {
 
 		pacman.pacmanLivesLeft--;
@@ -184,17 +183,20 @@ public class Board extends JPanel implements ActionListener {
 
 		for (short i = 0; i < ghosts.length; i++) {
 			Ghost ghost = ghosts[i];
-			ghost.move(pacman.screenData, maze.getBlockSize(), graphics, pacman.pacmanX/maze.getBlockSize(), pacman.pacmanY/maze.getBlockSize());
-			//drawGhost(g2d, ghost.ghostX + 1, ghost.ghostY + 1);
-			if (pacman.pacmanX > (ghost.ghostX - 15) && pacman.pacmanX < (ghost.ghostX + 15)
+			ghost.move(pacman.screenData, maze.getBlockSize(), graphics,
+					pacman.pacmanX / maze.getBlockSize(),
+					pacman.pacmanY / maze.getBlockSize());
+
+			if (pacman.pacmanX > (ghost.ghostX - 15)
+					&& pacman.pacmanX < (ghost.ghostX + 15)
 					&& pacman.pacmanY > (ghost.ghostY - 15)
-					&& pacman.pacmanY < (ghost.ghostY + 15) && adapter.isPlaying) {
+					&& pacman.pacmanY < (ghost.ghostY + 15)
+					&& adapter.isPlaying && !pacman.isInvisible) {
 
 				dying = true;
 			}
 		}
 	}
-
 
 	public void SetMovement(int dimensionX, int dimensionY) {
 		pacman.reqDimensionX = dimensionX;
@@ -204,36 +206,42 @@ public class Board extends JPanel implements ActionListener {
 	public void initGame() {
 
 		pacman.pacmanLivesLeft = 3;
-		
+
 		pacman.score = 0;
 		level = 1;
 		initLevel();
 
-		currentSpeed = 3;
 	}
 
-	private void setBonusData(){
-		
-		pacman.bonusData = new short[maze.getNumberOfBlocks() * maze.getNumberOfBlocks()];
+	private void setBonusData() {
+
+		pacman.bonusData = new short[maze.getNumberOfBlocks()
+				* maze.getNumberOfBlocks()];
 		int i;
 		int extras = 0;
-		for (i = 0; i < maze.getNumberOfBlocks()* maze.getNumberOfBlocks(); i++) {
+		int invisibility = 0;
+		for (i = 0; i < maze.getNumberOfBlocks() * maze.getNumberOfBlocks(); i++) {
 			Random random = new Random();
-			int n = random.nextInt(1000);
-			if (n < 12 && levelData[i] != 0 && extras < 3) {
-				pacman.bonusData[i] = 1;
+			int n = random.nextInt(100);
+			if (n <= 1 && levelData[i] != 0 && extras < 3) {
+
+				if (extras == 1 && invisibility == 0) {
+					pacman.bonusData[i] = 2;
+					// One invisibility dot
+					invisibility = 1;
+				} else {
+					pacman.bonusData[i] = 1;
+				}
 				extras++;
-			}
-			else {
+			} else {
 				pacman.bonusData[i] = 0;
-			}	
+			}
 		}
 	}
-	
-	
+
 	private void initLevel() {
 		int i;
-		for (i = 0; i < maze.getNumberOfBlocks()* maze.getNumberOfBlocks(); i++) {
+		for (i = 0; i < maze.getNumberOfBlocks() * maze.getNumberOfBlocks(); i++) {
 			pacman.screenData[i] = levelData[i];
 		}
 
@@ -242,23 +250,22 @@ public class Board extends JPanel implements ActionListener {
 	}
 
 	private void initGhosts() {
-		
+
 		short i;
 		int dx = 1;
-		
-		ghosts = new Ghost[] { 
-			      new Ghost(0, 0, level), 
-			      new Ghost(14 * maze.getBlockSize(), 14 * maze.getBlockSize(), level),
-			      new Ghost(14 * maze.getBlockSize(), 0, level),
-			      new Ghost(0, 14 * maze.getBlockSize(), level)
-			};
-		
-		for (i = 0; i < ghosts.length; i++) {	
+
+		ghosts = new Ghost[] {
+				new Ghost(0, 0, level),
+				new Ghost(14 * maze.getBlockSize(), 14 * maze.getBlockSize(),level), 
+				new Ghost(14 * maze.getBlockSize(), 0, level),
+				new Ghost(0, 14 * maze.getBlockSize(), level) };
+
+		for (i = 0; i < ghosts.length; i++) {
 			ghosts[i].ghostDY = 0;
 			ghosts[i].ghostDX = dx;
 		}
 	}
-	
+
 	private void continueLevel() {
 
 		initGhosts();
@@ -272,7 +279,6 @@ public class Board extends JPanel implements ActionListener {
 		pacman.viewDimensionY = 0;
 		dying = false;
 	}
-
 
 	@Override
 	public void paintComponent(Graphics g) {
@@ -297,7 +303,7 @@ public class Board extends JPanel implements ActionListener {
 		} else {
 			showIntroScreen(graphics);
 		}
-	
+
 		Toolkit.getDefaultToolkit().sync();
 		graphics.dispose();
 	}
