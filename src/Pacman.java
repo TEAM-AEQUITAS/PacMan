@@ -30,7 +30,7 @@ public class Pacman extends JPanel {
     protected int viewDimensionY;
     protected short[] screenData;
     protected int pacmanAnimPos = 0;
-	protected int pacmanLifesLeft;
+	protected int pacmanLivesLeft;
 	protected short[] bonusData;
 
     protected void movePacman(Maze maze) {
@@ -61,8 +61,8 @@ public class Pacman extends JPanel {
             }
             if (bPos == 1) {
             	// Maximum lives is 7, to limit life gathering
-            	if (pacmanLifesLeft < 7) {
-            		pacmanLifesLeft +=1;
+            	if (pacmanLivesLeft < 7) {
+            		pacmanLivesLeft +=1;
             	}
             	bonusData[position] = 0;
             }

@@ -149,7 +149,7 @@ public class Board extends JPanel implements ActionListener {
 		g.drawString(scoreString,  maze.getScreenSize() / 2 + 96,  maze.getScreenSize() + 16);
 		
 		Image pacman3left = new ImageIcon("images/pacman3left.gif").getImage();
-		for (i = 0; i < pacman.pacmanLifesLeft; i++) {
+		for (i = 0; i < pacman.pacmanLivesLeft; i++) {
 			g.drawImage(pacman3left, i * 28 + 8,  maze.getScreenSize() + 1, this);
 		}
 	}
@@ -169,9 +169,9 @@ public class Board extends JPanel implements ActionListener {
 	}
 	private void death() {
 
-		pacman.pacmanLifesLeft--;
+		pacman.pacmanLivesLeft--;
 
-		if (pacman.pacmanLifesLeft == 0) {
+		if (pacman.pacmanLivesLeft == 0) {
 			adapter.isPlaying = false;
 			initGame();
 
@@ -203,7 +203,7 @@ public class Board extends JPanel implements ActionListener {
 
 	public void initGame() {
 
-		pacman.pacmanLifesLeft = 3;
+		pacman.pacmanLivesLeft = 3;
 		
 		pacman.score = 0;
 		level = 1;
