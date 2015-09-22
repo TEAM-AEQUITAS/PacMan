@@ -17,7 +17,7 @@ public class Ghost extends JPanel {
 	public int ghostDX;
 	public int ghostDY;
 	private int speed;
-	private final int validSpeeds[] = {1, 2, 3};
+	private final int validSpeeds[] = {1, 2, 3, 4, 5};
 	
 	public Ghost(int initialPositionX, int initialPositionY, int level)  {
 		
