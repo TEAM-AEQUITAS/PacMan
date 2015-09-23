@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src"/>
+	<classpathentry excluding="data/|data/sounds/|lib/" kind="src" path="src"/>
 	<classpathentry kind="src" path="images"/>
+	<classpathentry excluding="sounds/" kind="src" path="src/data"/>
+	<classpathentry kind="src" path="src/data/sounds"/>
+	<classpathentry kind="src" path="src/lib"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry kind="lib" path="C:/Users/Villy/Documents/GitHub/PacMan/src/lib/jl.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

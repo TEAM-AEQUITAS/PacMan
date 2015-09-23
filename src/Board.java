@@ -14,6 +14,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import graphics.Play;
+import graphics.Sounds;
+
 public class Board extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
@@ -30,6 +33,7 @@ public class Board extends JPanel implements ActionListener {
 	private int level;
 	private Ghost[] ghosts;
 	private Pacman pacman;
+	static Play music;
 	Maze maze = new Maze();
 
 	private final short levelData[] = { 19, 26, 26, 18, 26, 26, 26, 18, 26, 26,
@@ -105,10 +109,13 @@ public class Board extends JPanel implements ActionListener {
 
 		if (dying) {
 
+			 music = new Play("src/data/sounds/mirror.mp3", false, 1);
+		     music.start();
 			death();
+			
 
 		} else {
-
+			
 			pacman.movePacman(maze);
 			pacman.drawPacman(graphics);
 			moveGhosts(graphics);
@@ -172,7 +179,10 @@ public class Board extends JPanel implements ActionListener {
 
 		if (pacman.pacmanLivesLeft == 0) {
 			adapter.isPlaying = false;
+			music = new Play("src/data/sounds/chain.mp3", false, 1);
+			music.start();
 			initGame();
+
 
 		}
 
@@ -228,9 +238,9 @@ public class Board extends JPanel implements ActionListener {
 				if (extras == 1 && invisibility == 0) {
 					pacman.bonusData[i] = 2;
 					// One invisibility dot
-					invisibility = 1;
+					invisibility = 1;					
 				} else {
-					pacman.bonusData[i] = 1;
+					pacman.bonusData[i] = 1;				
 				}
 				extras++;
 			} else {

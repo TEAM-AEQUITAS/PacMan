@@ -1,12 +1,17 @@
 import javax.swing.*;
+
 import java.awt.*;
 import java.util.*;
 import java.util.Timer;
 
+import graphics.Play;
+import graphics.Sounds;
+
+
 public class Pacman extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-
+	static Play music;
 	protected int pacmanSpeed = 6;
 	protected int score;
 	// Regular pacman
@@ -92,15 +97,21 @@ public class Pacman extends JPanel {
 			if ((currentData & ScreenDataConstants.dotToEat) != 0) {
 				screenData[position] = (short) (currentData & ~ScreenDataConstants.dotToEat);
 				score++;
+				 music = new Play("src/data/sounds/boing.mp3", false, 60000);
+			     music.start();
 			}
 			if (bPos == 1) {
 				// Maximum lives is 7, to limit life gathering
 				if (pacmanLivesLeft < 7) {
+					music = new Play("src/data/sounds/kid_laugh.mp3", false, 60000);
+				    music.start();
 					pacmanLivesLeft += 1;
 				}
 				bonusData[position] = 0;
 			} else if (bPos == 2) {
 				// Pacman gets 10 seconds invisibility from ghosts
+				music = new Play("src/data/sounds/freeze.mp3", false, 60000);
+			    music.start();
 				invisibilityTimer.schedule(new ivincibilityRemoval(), 10000);
 				isInvisible = true;
 				bonusData[position] = 0;
